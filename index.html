@@ -4,2026 +4,2219 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>TrendRadar AI</title>
+<title>AuraMetrics — Global Trend Intelligence</title>
 
 <style>
+
+:root{
+  --bg:#05070b;
+  --bg2:#090d14;
+  --card:#0d131d;
+  --card2:#111925;
+  --border:rgba(255,255,255,.09);
+  --text:#f5f7fa;
+  --muted:#8d99aa;
+  --green:#65d391;
+  --blue:#5d8dff;
+  --purple:#9a72ff;
+  --red:#ff667a;
+  --yellow:#f4c95d;
+}
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-    font-family:Arial, Helvetica, sans-serif;
-    background:#050608;
-    color:#fff;
-    min-height:100vh;
+  background:
+  radial-gradient(circle at 20% 0%,rgba(93,141,255,.12),transparent 30%),
+  radial-gradient(circle at 90% 20%,rgba(154,114,255,.09),transparent 30%),
+  var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh;
 }
 
 button,
 input,
 select{
-    font-family:inherit;
+  font:inherit;
 }
 
 button{
-    cursor:pointer;
+  cursor:pointer;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:min(1200px,calc(100% - 40px));
+  margin:auto;
 }
 
 /* =========================
-   BACKGROUND
+NAVBAR
 ========================= */
 
-body:before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background:
-        radial-gradient(circle at 80% 10%,rgba(0,255,170,.08),transparent 25%),
-        radial-gradient(circle at 10% 40%,rgba(80,100,255,.08),transparent 25%);
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(5,7,11,.82);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:245px;
-    background:#08090d;
-    border-right:1px solid #1a1c22;
-    padding:25px 18px;
-    z-index:10;
+.nav{
+  height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:19px;
-    font-weight:800;
-    margin-bottom:45px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  font-size:19px;
 }
 
 .logo-icon{
-    width:36px;
-    height:36px;
-    border-radius:10px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#8cffc4;
-    color:#050608;
-    font-weight:900;
+  width:37px;
+  height:37px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  box-shadow:0 0 30px rgba(93,141,255,.25);
 }
 
-.logo span{
-    color:#8cffc4;
+.logo-icon svg{
+  width:21px;
 }
 
-.section-title{
-    color:#555b68;
-    font-size:9px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    margin:25px 10px 9px;
+nav{
+  display:flex;
+  gap:27px;
 }
 
-.menu{
-    padding:12px;
-    margin:4px 0;
-    border-radius:9px;
-    color:#8b91a0;
-    font-size:13px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    transition:.2s;
+nav a{
+  color:var(--muted);
+  font-size:13px;
 }
 
-.menu:hover,
-.menu.active{
-    background:rgba(140,255,196,.08);
-    color:#8cffc4;
+nav a:hover{
+  color:white;
 }
 
-.status{
-    position:absolute;
-    bottom:25px;
-    left:18px;
-    right:18px;
-    border:1px solid #1b1e25;
-    background:#0d0f14;
-    border-radius:11px;
-    padding:13px;
-}
-
-.status-dot{
-    display:inline-block;
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#8cffc4;
-    box-shadow:0 0 10px #8cffc4;
-    margin-right:6px;
-}
-
-.status-title{
-    font-size:11px;
-}
-
-.status-sub{
-    color:#666c78;
-    font-size:9px;
-    margin-top:7px;
+.nav-button{
+  border:0;
+  border-radius:9px;
+  padding:10px 17px;
+  color:white;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
 }
 
 /* =========================
-   MAIN
-========================= */
-
-.main{
-    margin-left:245px;
-    padding:30px;
-    max-width:1600px;
-}
-
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:28px;
-}
-
-.title{
-    font-size:27px;
-    font-weight:800;
-    letter-spacing:-1px;
-}
-
-.subtitle{
-    color:#777d8b;
-    font-size:12px;
-    margin-top:6px;
-}
-
-.actions{
-    display:flex;
-    gap:9px;
-}
-
-.btn{
-    border:1px solid #20232b;
-    background:#0d0f14;
-    color:#fff;
-    padding:10px 14px;
-    border-radius:8px;
-    font-size:11px;
-}
-
-.btn:hover{
-    border-color:#8cffc4;
-}
-
-.primary{
-    background:#8cffc4;
-    color:#041008;
-    border-color:#8cffc4;
-    font-weight:bold;
-}
-
-/* =========================
-   HERO
+HERO
 ========================= */
 
 .hero{
-    min-height:260px;
-    border:1px solid #1b1e25;
-    border-radius:17px;
-    padding:35px;
-    background:
-        radial-gradient(circle at 85% 50%,rgba(140,255,196,.12),transparent 25%),
-        linear-gradient(120deg,#0c0f14,#090b10);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
+  padding:100px 0 65px;
+  text-align:center;
 }
 
 .badge{
-    color:#8cffc4;
-    font-size:10px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    margin-bottom:15px;
-}
-
-.hero h1{
-    font-size:42px;
-    line-height:1.05;
-    letter-spacing:-2px;
-    max-width:700px;
-}
-
-.hero h1 span{
-    color:#8cffc4;
-}
-
-.hero p{
-    color:#858b98;
-    max-width:650px;
-    line-height:1.6;
-    font-size:13px;
-    margin-top:14px;
-}
-
-.live{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    margin-top:20px;
-    color:#777e8b;
-    font-size:10px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 13px;
+  border-radius:30px;
+  border:1px solid rgba(101,211,145,.22);
+  background:rgba(101,211,145,.06);
+  color:#9be8b9;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.8px;
 }
 
 .live-dot{
-    width:7px;
-    height:7px;
-    background:#8cffc4;
-    border-radius:50%;
-    box-shadow:0 0 12px #8cffc4;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+}
+
+h1{
+  font-size:clamp(45px,7vw,82px);
+  line-height:1;
+  letter-spacing:-4px;
+  max-width:950px;
+  margin:25px auto;
+}
+
+.gradient{
+  background:linear-gradient(100deg,#fff,#a8c4ff,#aa8cff,#65e6ef);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero-text{
+  color:var(--muted);
+  max-width:700px;
+  margin:auto;
+  font-size:17px;
+}
+
+.hero-buttons{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:28px;
+}
+
+.btn{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.05);
+  color:white;
+  padding:13px 19px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  border:0;
 }
 
 /* =========================
-   GLOBAL SIGNAL
+GLOBAL RADAR
 ========================= */
 
-.global-number{
-    text-align:right;
+.radar-section{
+  padding:65px 0 100px;
 }
 
-.global-label{
-    color:#666c78;
-    font-size:9px;
-    letter-spacing:1.5px;
+.section-title{
+  margin-bottom:35px;
 }
 
-.global-value{
-    font-size:48px;
-    font-weight:900;
-    margin-top:7px;
+.section-title .eyebrow{
+  color:#8faeff;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
 }
 
-.global-growth{
-    color:#8cffc4;
-    font-size:10px;
+.section-title h2{
+  font-size:45px;
+  letter-spacing:-2px;
+  margin:10px 0;
 }
 
-/* =========================
-   STATS
-========================= */
+.section-title p{
+  color:var(--muted);
+  max-width:650px;
+}
+
+/* COUNTRY SELECTOR */
+
+.country-selector{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:8px;
+  margin-bottom:25px;
+}
+
+.country{
+  flex:0 0 auto;
+  padding:10px 15px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.025);
+  color:var(--muted);
+  transition:.2s;
+}
+
+.country:hover{
+  color:white;
+}
+
+.country.active{
+  color:white;
+  border-color:rgba(93,141,255,.4);
+  background:rgba(93,141,255,.12);
+}
+
+/* RADAR HEADER */
+
+.radar-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.radar-header h3{
+  font-size:18px;
+}
+
+.status{
+  color:var(--green);
+  font-size:11px;
+  font-weight:800;
+}
+
+/* TREND CARDS */
+
+.trend-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.trend-card{
+  border:1px solid var(--border);
+  background:linear-gradient(145deg,var(--card),rgba(13,19,29,.65));
+  border-radius:18px;
+  padding:20px;
+  transition:.25s;
+}
+
+.trend-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(93,141,255,.3);
+}
+
+.trend-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.trend-title{
+  font-size:17px;
+  font-weight:800;
+}
+
+.trend-category{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+}
+
+.trend-score{
+  color:var(--green);
+  font-size:22px;
+  font-weight:900;
+}
+
+.trend-info{
+  margin:20px 0;
+}
+
+.progress{
+  height:5px;
+  background:#1c2533;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  border-radius:20px;
+}
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-bottom:18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:16px;
 }
 
-.card{
-    background:#0b0d12;
-    border:1px solid #1a1d24;
-    border-radius:13px;
-    padding:18px;
+.stat{
+  background:rgba(255,255,255,.025);
+  border-radius:9px;
+  padding:9px;
 }
 
-.stat-label{
-    color:#737987;
-    font-size:10px;
+.stat small{
+  color:var(--muted);
+  display:block;
+  font-size:9px;
 }
 
-.stat-number{
-    font-size:28px;
-    font-weight:800;
-    margin-top:10px;
+.stat strong{
+  font-size:12px;
 }
 
-.green{
-    color:#8cffc4;
+/* ANALYZE */
+
+.analyze{
+  margin-top:16px;
+  width:100%;
+  border:0;
+  border-radius:10px;
+  padding:11px;
+  background:rgba(93,141,255,.1);
+  color:#a9c2ff;
+  font-weight:800;
+  transition:.2s;
 }
 
-.stat-change{
-    color:#8cffc4;
-    font-size:9px;
-    margin-top:5px;
-}
-
-/* =========================
-   GRID
-========================= */
-
-.grid{
-    display:grid;
-    grid-template-columns:1.45fr .8fr;
-    gap:18px;
+.analyze:hover{
+  background:rgba(93,141,255,.2);
 }
 
 /* =========================
-   PANEL
+ANALYSIS PANEL
 ========================= */
 
-.panel{
-    background:#0b0d12;
-    border:1px solid #1a1d24;
-    border-radius:14px;
-    overflow:hidden;
+.analysis-section{
+  padding:80px 0;
 }
 
-.panel-head{
-    padding:18px 20px;
-    border-bottom:1px solid #191c23;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.analysis-layout{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:18px;
 }
 
-.panel-title{
-    font-size:13px;
-    font-weight:bold;
+.analysis-intro{
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:20px;
+  padding:28px;
 }
 
-.panel-sub{
-    color:#646a77;
-    font-size:9px;
-    margin-top:4px;
+.analysis-intro h2{
+  font-size:36px;
+  letter-spacing:-1.5px;
+  margin-bottom:13px;
+}
+
+.analysis-intro p{
+  color:var(--muted);
+}
+
+.analysis-list{
+  list-style:none;
+  margin-top:25px;
+}
+
+.analysis-list li{
+  color:#c8d0dc;
+  font-size:13px;
+  margin:12px 0;
+}
+
+.analysis-list li:before{
+  content:"✓";
+  color:var(--green);
+  margin-right:9px;
+  font-weight:900;
+}
+
+.analysis-result{
+  border:1px solid rgba(93,141,255,.22);
+  background:
+  radial-gradient(circle at top right,rgba(93,141,255,.1),transparent 40%),
+  var(--card);
+  border-radius:20px;
+  padding:28px;
+  min-height:330px;
+}
+
+.result-empty{
+  height:100%;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:var(--muted);
+}
+
+.result-empty-icon{
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+.result-content{
+  display:none;
+}
+
+.result-content.show{
+  display:block;
+}
+
+.result-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:20px;
+}
+
+.result-header h3{
+  font-size:25px;
+}
+
+.result-badge{
+  color:var(--green);
+  background:rgba(101,211,145,.08);
+  border:1px solid rgba(101,211,145,.18);
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.result-block{
+  border-top:1px solid var(--border);
+  padding:15px 0;
+}
+
+.result-block h4{
+  font-size:12px;
+  color:#91aaff;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  margin-bottom:6px;
+}
+
+.result-block p{
+  color:#cbd3df;
+  font-size:13px;
 }
 
 /* =========================
-   RADAR
+AI CONTENT GENERATOR
 ========================= */
 
-.radar-area{
-    height:400px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.radar{
-    position:relative;
-    width:310px;
-    height:310px;
-    border-radius:50%;
-    border:1px solid rgba(140,255,196,.25);
-    background:
-        repeating-radial-gradient(
-            circle,
-            transparent 0 45px,
-            rgba(140,255,196,.12) 46px 47px
-        );
-    box-shadow:0 0 60px rgba(140,255,196,.04);
-    overflow:hidden;
-}
-
-.radar:before{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:0;
-    bottom:0;
-    width:1px;
-    background:rgba(140,255,196,.12);
-}
-
-.radar:after{
-    content:"";
-    position:absolute;
-    top:50%;
-    left:0;
-    right:0;
-    height:1px;
-    background:rgba(140,255,196,.12);
-}
-
-.sweep{
-    position:absolute;
-    left:50%;
-    bottom:50%;
-    width:50%;
-    height:50%;
-    transform-origin:0 100%;
-    background:linear-gradient(
-        45deg,
-        rgba(140,255,196,.30),
-        transparent 70%
-    );
-    animation:sweep 4s linear infinite;
-}
-
-@keyframes sweep{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-.center{
-    position:absolute;
-    left:calc(50% - 10px);
-    top:calc(50% - 10px);
-    width:20px;
-    height:20px;
-    background:#8cffc4;
-    border-radius:50%;
-    box-shadow:0 0 25px #8cffc4;
-    z-index:3;
-}
-
-.point{
-    position:absolute;
-    width:9px;
-    height:9px;
-    border-radius:50%;
-    background:#8cffc4;
-    box-shadow:0 0 14px #8cffc4;
-    z-index:4;
-    animation:pulse 2s infinite;
-}
-
-.point:after{
-    content:attr(data-label);
-    position:absolute;
-    left:14px;
-    top:-4px;
-    white-space:nowrap;
-    color:#a9afbb;
-    font-size:8px;
-}
-
-@keyframes pulse{
-    0%,100%{
-        transform:scale(1);
-    }
-    50%{
-        transform:scale(1.7);
-    }
-}
-
-.p1{left:67%;top:27%}
-.p2{left:31%;top:35%}
-.p3{left:73%;top:63%}
-.p4{left:42%;top:72%}
-.p5{left:56%;top:18%}
-.p6{left:22%;top:57%}
-
-/* =========================
-   AI
-========================= */
-
-.ai{
-    padding:20px;
+.ai-section{
+  padding:80px 0 110px;
 }
 
 .ai-box{
-    border:1px solid rgba(165,120,255,.2);
-    background:rgba(165,120,255,.05);
-    border-radius:11px;
-    padding:17px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:var(--card);
+  padding:28px;
 }
 
-.ai-label{
-    color:#bd9dff;
-    font-size:9px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
+.ai-form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
 }
 
-.ai-name{
-    font-size:18px;
-    font-weight:bold;
-    margin-top:9px;
+.field label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:6px;
 }
 
-.ai-description{
-    color:#777e8c;
-    font-size:10px;
-    line-height:1.6;
-    margin-top:8px;
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid var(--border);
+  background:#080d15;
+  color:white;
+  border-radius:9px;
+  padding:11px;
+  outline:none;
 }
 
-.prediction{
-    display:flex;
-    justify-content:space-between;
-    padding:13px;
-    border:1px solid #1b1e25;
-    border-radius:9px;
-    margin-top:10px;
+.field textarea{
+  min-height:90px;
+  resize:vertical;
 }
 
-.prediction-label{
-    color:#747a87;
-    font-size:10px;
+.full{
+  grid-column:1/-1;
 }
 
-.prediction-value{
-    color:#8cffc4;
-    font-size:10px;
-    font-weight:bold;
+.generate{
+  margin-top:3px;
+}
+
+.content-result{
+  display:none;
+  margin-top:20px;
+  border:1px solid rgba(101,211,145,.2);
+  background:rgba(101,211,145,.04);
+  padding:20px;
+  border-radius:14px;
+}
+
+.content-result.show{
+  display:block;
+}
+
+.content-result h3{
+  margin-bottom:8px;
+}
+
+.content-result p{
+  color:#cbd5e1;
+  font-size:13px;
 }
 
 /* =========================
-   TREND LIST
+GLOBAL OVERVIEW
 ========================= */
 
-.trend-section{
-    margin-top:18px;
+.global-section{
+  padding:80px 0;
 }
 
-.filters{
-    padding:13px 18px;
-    border-bottom:1px solid #191c23;
-    display:flex;
-    gap:7px;
-    flex-wrap:wrap;
+.global-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
 }
 
-.filter{
-    border:1px solid #20232b;
-    background:#0d0f14;
-    color:#767d89;
-    border-radius:6px;
-    padding:7px 10px;
-    font-size:9px;
+.global-card{
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--card);
+  padding:18px;
 }
 
-.filter.active{
-    color:#8cffc4;
-    border-color:rgba(140,255,196,.35);
+.global-card .flag{
+  font-size:27px;
 }
 
-.search{
-    width:180px;
-    background:#0c0e13;
-    border:1px solid #20232b;
-    border-radius:7px;
-    color:#fff;
-    padding:8px 10px;
-    outline:none;
-    font-size:10px;
-    margin-left:auto;
+.global-card h3{
+  margin-top:10px;
 }
 
-.search:focus{
-    border-color:#8cffc4;
+.global-card p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
 }
 
-.trend{
-    padding:16px 19px;
-    border-bottom:1px solid #171a20;
-    display:grid;
-    grid-template-columns:35px 1fr auto;
-    gap:12px;
-    align-items:center;
-    transition:.2s;
-}
-
-.trend:hover{
-    background:#0e1016;
-}
-
-.rank{
-    color:#555b67;
-    font-size:10px;
-}
-
-.trend-name{
-    font-size:12px;
-    font-weight:bold;
-}
-
-.tags{
-    display:flex;
-    gap:5px;
-    flex-wrap:wrap;
-    margin-top:6px;
-}
-
-.tag{
-    border:1px solid #20232b;
-    color:#777e8b;
-    padding:3px 6px;
-    border-radius:4px;
-    font-size:8px;
-}
-
-.tag.green-tag{
-    color:#8cffc4;
-    border-color:rgba(140,255,196,.2);
-}
-
-.score{
-    text-align:right;
-}
-
-.score-number{
-    font-size:20px;
-    font-weight:900;
-}
-
-.score-title{
-    color:#707682;
-    font-size:7px;
-}
-
-.growth{
-    color:#8cffc4;
-    font-size:9px;
-    margin-top:3px;
+.global-score{
+  color:var(--green);
+  font-size:25px;
+  font-weight:900;
+  margin-top:15px;
 }
 
 /* =========================
-   OPPORTUNITY
+FOOTER
 ========================= */
 
-.opportunity{
-    margin-top:18px;
-    padding:20px;
-    border:1px solid rgba(140,255,196,.16);
-    border-radius:13px;
-    background:linear-gradient(
-        110deg,
-        rgba(140,255,196,.05),
-        transparent
-    );
+footer{
+  border-top:1px solid var(--border);
+  padding:35px 0;
+  color:var(--muted);
+  font-size:11px;
 }
 
-.opportunity-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.opportunity-title{
-    font-size:13px;
-    font-weight:bold;
-}
-
-.opportunity-description{
-    color:#737a87;
-    font-size:10px;
-    margin-top:5px;
-}
-
-.opp-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:15px;
-}
-
-.opp{
-    border:1px solid #1d2027;
-    background:rgba(255,255,255,.02);
-    padding:13px;
-    border-radius:9px;
-}
-
-.opp-label{
-    color:#5f6571;
-    font-size:8px;
-    text-transform:uppercase;
-}
-
-.opp-value{
-    font-size:11px;
-    font-weight:bold;
-    margin-top:7px;
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
 }
 
 /* =========================
-   MODAL
+MODAL
 ========================= */
 
 .modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    backdrop-filter:blur(8px);
-    z-index:100;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);
 }
 
 .modal.show{
-    display:flex;
+  display:flex;
 }
 
 .modal-box{
-    width:620px;
-    max-width:100%;
-    background:#0c0f14;
-    border:1px solid #252933;
-    border-radius:16px;
-    overflow:hidden;
+  width:min(720px,100%);
+  max-height:85vh;
+  overflow:auto;
+  border:1px solid rgba(255,255,255,.12);
+  background:#0b111b;
+  border-radius:20px;
+  box-shadow:0 30px 100px rgba(0,0,0,.6);
 }
 
-.modal-header{
-    padding:20px;
-    border-bottom:1px solid #1b1e25;
-    display:flex;
-    justify-content:space-between;
+.modal-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+  border-bottom:1px solid var(--border);
+}
+
+.modal-top h2{
+  font-size:19px;
 }
 
 .close{
-    background:none;
-    border:0;
-    color:#777e8b;
-    font-size:23px;
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.05);
+  color:white;
+  font-size:20px;
 }
 
-.modal-body{
-    padding:22px;
+.modal-content{
+  padding:22px;
 }
 
-.modal-score{
-    font-size:60px;
-    font-weight:900;
-    color:#8cffc4;
+.modal-content h3{
+  font-size:24px;
+  margin-bottom:5px;
 }
 
-.bar{
-    height:5px;
-    background:#1b1e25;
-    border-radius:5px;
-    margin:8px 0 20px;
+.modal-meta{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:22px;
 }
 
-.bar-fill{
-    height:100%;
-    background:#8cffc4;
-    border-radius:5px;
+.analysis-item{
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
 }
 
-.modal-text{
-    color:#9298a4;
-    font-size:11px;
-    line-height:1.7;
+.analysis-item:last-child{
+  border-bottom:0;
+}
+
+.analysis-item strong{
+  display:block;
+  color:#9eb8ff;
+  font-size:11px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.analysis-item p{
+  color:#d0d7e1;
+  font-size:13px;
 }
 
 /* =========================
-   RESPONSIVE
+RESPONSIVE
 ========================= */
 
-@media(max-width:1000px){
+@media(max-width:900px){
 
-    .sidebar{
-        width:70px;
-    }
+  nav{
+    display:none;
+  }
 
-    .sidebar .menu span,
-    .section-title,
-    .status,
-    .logo span{
-        display:none;
-    }
+  .trend-grid{
+    grid-template-columns:1fr 1fr;
+  }
 
-    .main{
-        margin-left:70px;
-    }
+  .analysis-layout{
+    grid-template-columns:1fr;
+  }
 
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:650px){
-
-    .main{
-        padding:15px;
-    }
-
-    .topbar{
-        display:block;
-    }
-
-    .actions{
-        margin-top:15px;
-    }
-
-    .hero{
-        display:block;
-        padding:24px;
-    }
-
-    .hero h1{
-        font-size:30px;
-    }
-
-    .global-number{
-        text-align:left;
-        margin-top:25px;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .opp-grid{
-        grid-template-columns:1fr;
-    }
-
-    .search{
-        width:100%;
-        margin-left:0;
-        margin-top:8px;
-    }
+  .global-grid{
+    grid-template-columns:1fr 1fr;
+  }
 
 }
+
+@media(max-width:600px){
+
+  .container{
+    width:calc(100% - 24px);
+  }
+
+  .hero{
+    padding-top:70px;
+  }
+
+  h1{
+    font-size:47px;
+    letter-spacing:-2.5px;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .trend-grid,
+  .global-grid,
+  .ai-form{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .section-title h2{
+    font-size:35px;
+  }
+
+  .footer-inner{
+    flex-direction:column;
+    gap:10px;
+  }
+
+}
+
 </style>
 </head>
 
-
 <body>
 
+
 <!-- =========================
-     SIDEBAR
+NAVBAR
 ========================= -->
 
-<aside class="sidebar">
+<header>
 
-    <div class="logo">
-        <div class="logo-icon">R</div>
-        TREND<span>RADAR</span>
-    </div>
+<div class="container nav">
 
-    <div class="section-title">
-        Intelligence
-    </div>
+<a href="#inicio" class="logo">
 
-    <div class="menu active">
-        ◉ <span>Live Radar</span>
-    </div>
+<span class="logo-icon">
 
-    <div class="menu">
-        ↗ <span>Emerging Trends</span>
-    </div>
+<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
 
-    <div class="menu">
-        ◇ <span>Trend Library</span>
-    </div>
+<path d="M4 17l6-6 4 4 6-8"/>
+<path d="M17 7h3v3"/>
 
-    <div class="section-title">
-        Brand Intelligence
-    </div>
+</svg>
 
-    <div class="menu">
-        ◎ <span>My Brand</span>
-    </div>
+</span>
 
-    <div class="menu">
-        ✦ <span>Opportunities</span>
-    </div>
+AuraMetrics
 
-    <div class="menu">
-        AI <span>AI Analyst</span>
-    </div>
+</a>
 
-    <div class="section-title">
-        Markets
-    </div>
+<nav>
 
-    <div class="menu">
-        ◌ <span>Global</span>
-    </div>
+<a href="#radar">Global Radar</a>
+<a href="#analysis">AI Analysis</a>
+<a href="#content">Content AI</a>
+<a href="#global">Markets</a>
 
-    <div class="menu">
-        ES <span>Spain</span>
-    </div>
+</nav>
 
-    <div class="menu">
-        US <span>United States</span>
-    </div>
+<a href="#radar" class="nav-button">
+Explore Radar
+</a>
 
-    <div class="status">
+</div>
 
-        <div class="status-title">
-            <span class="status-dot"></span>
-            Radar Engine Online
-        </div>
+</header>
 
-        <div class="status-sub">
-            Monitoring signals continuously
-        </div>
 
-    </div>
-
-</aside>
+<main id="inicio">
 
 
 <!-- =========================
-     MAIN
+HERO
 ========================= -->
 
-<main class="main">
+<section class="hero">
 
-    <div class="topbar">
+<div class="container">
 
-        <div>
-            <div class="title">
-                Trend Radar
-            </div>
+<div class="badge">
 
-            <div class="subtitle">
-                Predict what will trend before everyone else.
-            </div>
-        </div>
+<span class="live-dot"></span>
 
-        <div class="actions">
+GLOBAL TREND INTELLIGENCE
 
-            <button
-                class="btn"
-                onclick="refreshRadar()">
-                ↻ Refresh
-            </button>
+</div>
 
-            <button
-                class="btn primary"
-                onclick="openAI()">
-                ✦ AI Analysis
-            </button>
+<h1>
 
-        </div>
+See what is
+<span class="gradient">growing next.</span>
 
-    </div>
+</h1>
 
+<p class="hero-text">
 
-    <!-- =========================
-         HERO
-    ========================= -->
+Monitor emerging trends across markets and transform
+early signals into marketing opportunities before they become mainstream.
 
-    <section class="hero">
+</p>
 
-        <div>
+<div class="hero-buttons">
 
-            <div class="badge">
-                AI-POWERED TREND INTELLIGENCE
-            </div>
+<a class="btn btn-primary" href="#radar">
+Explore Global Radar →
+</a>
 
-            <h1>
-                Know what's trending
-                <span>before it trends.</span>
-            </h1>
+<a class="btn" href="#analysis">
+Analyze a Trend
+</a>
 
-            <p>
-                Detect emerging TikTok formats, sounds, hashtags,
-                creator behavior and consumer signals before they
-                become mainstream opportunities.
-            </p>
+</div>
 
-            <div class="live">
-                <span class="live-dot"></span>
-                RADAR LIVE · Updated moments ago
-            </div>
+</div>
 
-        </div>
+</section>
 
-        <div class="global-number">
 
-            <div class="global-label">
-                GLOBAL SIGNALS
-            </div>
+<!-- =========================
+RADAR
+========================= -->
 
-            <div class="global-value">
-                18,472
-            </div>
+<section class="radar-section" id="radar">
 
-            <div class="global-growth">
-                +12.8% today
-            </div>
+<div class="container">
 
-        </div>
+<div class="section-title">
 
-    </section>
+<div class="eyebrow">
+GLOBAL TREND RADAR
+</div>
 
+<h2>
+What's moving around the world?
+</h2>
 
-    <!-- =========================
-         STATS
-    ========================= -->
+<p>
+Select a market and explore the emerging signals detected by the
+AuraMetrics intelligence engine.
+</p>
 
-    <section class="stats">
+</div>
 
-        <div class="card">
 
-            <div class="stat-label">
-                Emerging trends
-            </div>
+<div class="country-selector">
 
-            <div
-                class="stat-number"
-                id="emerging">
-                127
-            </div>
+<button class="country active" data-country="spain" onclick="selectCountry('spain',this)">
+🇪🇸 España
+</button>
 
-            <div class="stat-change">
-                +18.4% today
-            </div>
+<button class="country" data-country="usa" onclick="selectCountry('usa',this)">
+🇺🇸 Estados Unidos
+</button>
 
-        </div>
+<button class="country" data-country="china" onclick="selectCountry('china',this)">
+🇨🇳 China
+</button>
 
+<button class="country" data-country="uk" onclick="selectCountry('uk',this)">
+🇬🇧 Reino Unido
+</button>
 
-        <div class="card">
+<button class="country" data-country="japan" onclick="selectCountry('japan',this)">
+🇯🇵 Japón
+</button>
 
-            <div class="stat-label">
-                Breakout probability
-            </div>
+<button class="country" data-country="korea" onclick="selectCountry('korea',this)">
+🇰🇷 Corea del Sur
+</button>
 
-            <div class="stat-number">
-                82%
-            </div>
+<button class="country" data-country="france" onclick="selectCountry('france',this)">
+🇫🇷 Francia
+</button>
 
-            <div class="stat-change">
-                AI confidence
-            </div>
+<button class="country" data-country="germany" onclick="selectCountry('germany',this)">
+🇩🇪 Alemania
+</button>
 
-        </div>
+</div>
 
 
-        <div class="card">
+<div class="radar-header">
 
-            <div class="stat-label">
-                Signals analyzed
-            </div>
+<h3 id="marketTitle">
+🇪🇸 Emerging trends in Spain
+</h3>
 
-            <div class="stat-number">
-                2.4M
-            </div>
+<span class="status">
+● DEMO INTELLIGENCE
+</span>
 
-            <div class="stat-change">
-                Last 24 hours
-            </div>
+</div>
 
-        </div>
 
+<div class="trend-grid" id="trendGrid">
+</div>
 
-        <div class="card">
+</div>
 
-            <div class="stat-label">
-                Opportunities
-            </div>
+</section>
 
-            <div class="stat-number">
-                36
-            </div>
 
-            <div class="stat-change">
-                High potential
-            </div>
+<!-- =========================
+ANALYSIS
+========================= -->
 
-        </div>
+<section class="analysis-section" id="analysis">
 
-    </section>
+<div class="container">
 
+<div class="analysis-layout">
 
-    <!-- =========================
-         RADAR + AI
-    ========================= -->
 
-    <section class="grid">
+<div class="analysis-intro">
 
-        <div class="panel">
+<div class="section-title">
 
-            <div class="panel-head">
+<div class="eyebrow">
+AI TREND ANALYSIS
+</div>
 
-                <div>
-                    <div class="panel-title">
-                        Live Trend Radar
-                    </div>
+<h2>
+From signal to opportunity.
+</h2>
 
-                    <div class="panel-sub">
-                        Early signals detected across monitored markets
-                    </div>
-                </div>
+<p>
+Selecciona cualquier tendencia del radar y el sistema genera
+un análisis estructurado para marketing.
+</p>
 
-                <div class="green">
-                    ● LIVE
-                </div>
+</div>
 
-            </div>
+<ul class="analysis-list">
 
+<li>Momentum de la tendencia</li>
+<li>Audiencia potencial</li>
+<li>Razones de crecimiento</li>
+<li>Oportunidad para marcas</li>
+<li>Ideas de contenido</li>
+<li>Ventana temporal estimada</li>
 
-            <div class="radar-area">
+</ul>
 
-                <div class="radar">
+</div>
 
-                    <div class="sweep"></div>
 
-                    <div class="center"></div>
+<div class="analysis-result">
 
-                    <div
-                        class="point p1"
-                        data-label="AI Beauty">
-                    </div>
+<div class="result-empty" id="resultEmpty">
 
-                    <div
-                        class="point p2"
-                        data-label="Mini Vlogs">
-                    </div>
+<div>
 
-                    <div
-                        class="point p3"
-                        data-label="Photo Dumps">
-                    </div>
+<div class="result-empty-icon">
+✦
+</div>
 
-                    <div
-                        class="point p4"
-                        data-label="POV Format">
-                    </div>
+<strong>
+Selecciona "Analizar tendencia"
+</strong>
 
-                    <div
-                        class="point p5"
-                        data-label="Micro Reviews">
-                    </div>
+<p style="margin-top:6px;">
+El análisis aparecerá aquí.
+</p>
 
-                    <div
-                        class="point p6"
-                        data-label="Street Style">
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
 
-        </div>
+<div class="result-content" id="resultContent">
 
+<div class="result-header">
 
-        <!-- AI PANEL -->
+<div>
 
-        <div class="panel">
+<h3 id="resultTitle">
+Trend
+</h3>
 
-            <div class="panel-head">
+<div id="resultCountry" class="modal-meta">
+Country
+</div>
 
-                <div>
-                    <div class="panel-title">
-                        AI Prediction Engine
-                    </div>
+</div>
 
-                    <div class="panel-sub">
-                        Highest potential signal
-                    </div>
-                </div>
+<div class="result-badge">
+AI ANALYSIS
+</div>
 
-                <div style="color:#bd9dff">
-                    ✦ AI
-                </div>
+</div>
 
-            </div>
 
+<div class="result-block">
 
-            <div class="ai">
+<h4>
+Why it is growing
+</h4>
 
-                <div class="ai-box">
+<p id="resultWhy"></p>
 
-                    <div class="ai-label">
-                        Breakout candidate
-                    </div>
+</div>
 
-                    <div class="ai-name">
-                        Raw Micro-Review
-                    </div>
 
-                    <div class="ai-description">
-                        Short, authentic product reviews are showing
-                        accelerated adoption among smaller creators
-                        while mainstream saturation remains low.
-                    </div>
+<div class="result-block">
 
-                </div>
+<h4>
+Audience
+</h4>
 
+<p id="resultAudience"></p>
 
-                <div class="prediction">
+</div>
 
-                    <div class="prediction-label">
-                        Breakout probability
-                    </div>
 
-                    <div class="prediction-value">
-                        91%
-                    </div>
+<div class="result-block">
 
-                </div>
+<h4>
+Marketing opportunity
+</h4>
 
+<p id="resultOpportunity"></p>
 
-                <div class="prediction">
+</div>
 
-                    <div class="prediction-label">
-                        Growth acceleration
-                    </div>
 
-                    <div class="prediction-value">
-                        +238%
-                    </div>
+<div class="result-block">
 
-                </div>
+<h4>
+Content opportunity
+</h4>
 
+<p id="resultContentIdea"></p>
 
-                <div class="prediction">
+</div>
 
-                    <div class="prediction-label">
-                        Opportunity window
-                    </div>
 
-                    <div class="prediction-value">
-                        2–5 DAYS
-                    </div>
+<div class="result-block">
 
-                </div>
+<h4>
+Estimated opportunity window
+</h4>
 
+<p id="resultWindow"></p>
 
-                <button
-                    class="btn primary"
-                    style="width:100%;margin-top:14px"
-                    onclick="openTrend('Raw Micro-Review',91)">
+</div>
 
-                    View intelligence →
+</div>
 
-                </button>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </section>
+</section>
 
 
-    <!-- =========================
-         TREND LIST
-    ========================= -->
+<!-- =========================
+AI CONTENT
+========================= -->
 
-    <section class="panel trend-section">
+<section class="ai-section" id="content">
 
-        <div class="panel-head">
+<div class="container">
 
-            <div>
+<div class="section-title">
 
-                <div class="panel-title">
-                    Emerging Trends
-                </div>
+<div class="eyebrow">
+CONTENT AI
+</div>
 
-                <div class="panel-sub">
-                    Ranked by predictive Trend Score
-                </div>
+<h2>
+Turn trends into content.
+</h2>
 
-            </div>
+<p>
+Introduce una tendencia y genera un concepto de contenido
+adaptado a una plataforma.
+</p>
 
-            <div style="font-size:9px;color:#666">
-                LIVE DATA ENGINE
-            </div>
+</div>
 
-        </div>
 
+<div class="ai-box">
 
-        <div class="filters">
+<div class="ai-form">
 
-            <button
-                class="filter active"
-                onclick="filterTrends('all',this)">
-                All
-            </button>
+<div class="field">
 
-            <button
-                class="filter"
-                onclick="filterTrends('exploding',this)">
-                🔥 Exploding
-            </button>
+<label>
+MARCA
+</label>
 
-            <button
-                class="filter"
-                onclick="filterTrends('rising',this)">
-                ↗ Rising
-            </button>
+<input
+id="brand"
+placeholder="Ej: Mi marca"
+/>
 
-            <button
-                class="filter"
-                onclick="filterTrends('emerging',this)">
-                ◉ Emerging
-            </button>
+</div>
 
-            <button
-                class="filter"
-                onclick="filterTrends('saturated',this)">
-                Saturated
-            </button>
 
-            <input
-                id="search"
-                class="search"
-                placeholder="Search trends..."
-                oninput="searchTrends()">
+<div class="field">
 
-        </div>
+<label>
+PLATAFORMA
+</label>
 
+<select id="platform">
 
-        <div id="trendList"></div>
+<option>TikTok</option>
+<option>Instagram</option>
+<option>YouTube</option>
+<option>LinkedIn</option>
 
-    </section>
+</select>
 
+</div>
 
-    <!-- =========================
-         OPPORTUNITY
-    ========================= -->
 
-    <section class="opportunity">
+<div class="field">
 
-        <div class="opportunity-top">
+<label>
+TENDENCIA
+</label>
 
-            <div>
+<input
+id="contentTrend"
+placeholder="Ej: AI Shopping"
+/>
 
-                <div class="opportunity-title">
-                    ✦ Opportunity for brands
-                </div>
+</div>
 
-                <div class="opportunity-description">
-                    Turn emerging signals into marketing opportunities.
-                </div>
 
-            </div>
+<div class="field">
 
-            <button
-                class="btn primary"
-                onclick="generateOpportunity()">
-                Generate opportunity
-            </button>
+<label>
+OBJETIVO
+</label>
 
-        </div>
+<select id="objective">
 
+<option>Awareness</option>
+<option>Engagement</option>
+<option>Ventas</option>
+<option>Lanzamiento</option>
 
-        <div class="opp-grid">
+</select>
 
-            <div class="opp">
+</div>
 
-                <div class="opp-label">
-                    Recommended sector
-                </div>
 
-                <div class="opp-value">
-                    Fashion · Beauty
-                </div>
+<div class="field full">
 
-            </div>
+<label>
+CONTEXTO
+</label>
 
+<textarea
+id="context"
+placeholder="Describe brevemente el producto o campaña..."
+></textarea>
 
-            <div class="opp">
+</div>
 
-                <div class="opp-label">
-                    Content strategy
-                </div>
 
-                <div class="opp-value">
-                    Authentic micro-review
-                </div>
+<div class="full">
 
-            </div>
+<button class="btn btn-primary generate" onclick="generateContent()">
 
+✦ Generate Content Idea
 
-            <div class="opp">
+</button>
 
-                <div class="opp-label">
-                    Recommended move
-                </div>
+</div>
 
-                <div class="opp-value">
-                    Enter early
-                </div>
+</div>
 
-            </div>
 
-        </div>
+<div class="content-result" id="contentResult">
 
-    </section>
+<h3>
+✦ AI Content Concept
+</h3>
+
+<p id="generatedContent"></p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+GLOBAL MARKETS
+========================= -->
+
+<section class="global-section" id="global">
+
+<div class="container">
+
+<div class="section-title">
+
+<div class="eyebrow">
+GLOBAL MARKETS
+</div>
+
+<h2>
+One radar. Multiple markets.
+</h2>
+
+<p>
+Una vista conceptual de la actividad de tendencias por mercado.
+</p>
+
+</div>
+
+
+<div class="global-grid">
+
+<div class="global-card">
+
+<div class="flag">🇪🇸</div>
+
+<h3>España</h3>
+
+<p>Southern Europe</p>
+
+<div class="global-score">78</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+
+<div class="global-card">
+
+<div class="flag">🇺🇸</div>
+
+<h3>Estados Unidos</h3>
+
+<p>North America</p>
+
+<div class="global-score">91</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+
+<div class="global-card">
+
+<div class="flag">🇨🇳</div>
+
+<h3>China</h3>
+
+<p>Asia</p>
+
+<div class="global-score">89</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+
+<div class="global-card">
+
+<div class="flag">🇰🇷</div>
+
+<h3>Corea del Sur</h3>
+
+<p>Asia</p>
+
+<div class="global-score">86</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+
+<div class="global-card">
+
+<div class="flag">🇯🇵</div>
+
+<h3>Japón</h3>
+
+<p>Asia</p>
+
+<div class="global-score">74</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+
+<div class="global-card">
+
+<div class="flag">🇬🇧</div>
+
+<h3>Reino Unido</h3>
+
+<p>Europe</p>
+
+<div class="global-score">81</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+
+<div class="global-card">
+
+<div class="flag">🇫🇷</div>
+
+<h3>Francia</h3>
+
+<p>Europe</p>
+
+<div class="global-score">73</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+
+<div class="global-card">
+
+<div class="flag">🇩🇪</div>
+
+<h3>Alemania</h3>
+
+<p>Europe</p>
+
+<div class="global-score">70</div>
+
+<small style="color:var(--muted)">
+Trend momentum
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
 
 </main>
 
 
+<footer>
+
+<div class="container footer-inner">
+
+<div>
+© 2026 AuraMetrics · Prototype
+</div>
+
+<div>
+Global Trend Intelligence · DEMO DATA
+</div>
+
+</div>
+
+</footer>
+
+
 <!-- =========================
-     MODAL
+MODAL
 ========================= -->
 
-<div
-    class="modal"
-    id="modal">
+<div class="modal" id="analysisModal">
 
-    <div class="modal-box">
+<div class="modal-box">
 
-        <div class="modal-header">
+<div class="modal-top">
 
-            <div>
+<h2>
+✦ AI Trend Analysis
+</h2>
 
-                <div
-                    style="font-size:9px;color:#8cffc4">
-                    TREND INTELLIGENCE
-                </div>
+<button class="close" onclick="closeModal()">
+×
+</button>
 
-                <div
-                    id="modalTitle"
-                    style="font-size:20px;font-weight:bold;margin-top:5px">
-                    Trend
-                </div>
+</div>
 
-            </div>
+<div class="modal-content">
 
-            <button
-                class="close"
-                onclick="closeModal()">
-                ×
-            </button>
+<h3 id="modalTitle">
+Trend
+</h3>
 
-        </div>
+<div class="modal-meta" id="modalMeta">
+Market
+</div>
 
 
-        <div class="modal-body">
+<div class="analysis-item">
 
-            <div
-                style="font-size:9px;color:#666">
-                TREND SCORE
-            </div>
+<strong>
+Trend signal
+</strong>
 
-            <div
-                class="modal-score"
-                id="modalScore">
-                91
-            </div>
+<p id="modalSignal"></p>
 
-            <div class="bar">
-
-                <div
-                    class="bar-fill"
-                    id="barFill"
-                    style="width:91%">
-                </div>
-
-            </div>
+</div>
 
 
-            <div
-                class="modal-text"
-                id="modalText">
+<div class="analysis-item">
 
-                </div>
+<strong>
+Why it matters
+</strong>
 
+<p id="modalWhy"></p>
 
-            <div class="prediction">
-
-                <div class="prediction-label">
-                    AI breakout prediction
-                </div>
-
-                <div class="prediction-value">
-                    HIGH
-                </div>
-
-            </div>
+</div>
 
 
-            <div class="prediction">
+<div class="analysis-item">
 
-                <div class="prediction-label">
-                    Estimated opportunity
-                </div>
+<strong>
+Who is interested
+</strong>
 
-                <div class="prediction-value">
-                    NEXT 2–5 DAYS
-                </div>
+<p id="modalAudience"></p>
 
-            </div>
+</div>
 
 
-            <button
-                class="btn primary"
-                style="margin-top:18px"
-                onclick="generateIdea()">
+<div class="analysis-item">
 
-                ✦ Generate content idea
+<strong>
+Marketing opportunity
+</strong>
 
-            </button>
+<p id="modalOpportunity"></p>
 
-        </div>
+</div>
 
-    </div>
+
+<div class="analysis-item">
+
+<strong>
+Content idea
+</strong>
+
+<p id="modalIdea"></p>
+
+</div>
+
+
+<div class="analysis-item">
+
+<strong>
+Recommended action
+</strong>
+
+<p id="modalAction"></p>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 
 <script>
 
-/* =========================================
-   DEMO TREND DATA
+/* =====================================================
+TREND DATABASE
+=====================================================
 
-   ESTOS DATOS SON DE DEMOSTRACIÓN.
-   MÁS ADELANTE SE CONECTARÁN A LAS APIs.
-========================================= */
+Estos datos son DEMO.
+Después podemos sustituirlos por datos procedentes
+de APIs reales.
 
-const trends = [
+===================================================== */
 
-    {
-        name:"Raw Micro-Review",
-        score:91,
-        growth:"+238%",
-        category:"exploding",
-        sector:"Beauty",
-        market:"Global",
-        tags:["UGC","Reviews","Beauty"]
-    },
+const trends = {
 
-    {
-        name:"AI Styling Challenge",
-        score:87,
-        growth:"+211%",
-        category:"exploding",
-        sector:"Fashion",
-        market:"Europe",
-        tags:["AI","Fashion","Challenge"]
-    },
+spain:[
+{
+name:"Creator Commerce",
+category:"Commerce",
+score:88,
+growth:"+42%",
+audience:"Gen Z y jóvenes adultos",
+why:"La combinación de creadores, recomendaciones y compra directa está ganando relevancia.",
+opportunity:"Las marcas pueden experimentar con contenido de producto integrado de forma natural en perfiles de creadores.",
+idea:"Serie de vídeos cortos donde un creador prueba un producto y explica su experiencia sin formato publicitario tradicional.",
+window:"Próximas semanas",
+action:"Testear una campaña pequeña y medir engagement."
+},
 
-    {
-        name:"POV Mini Vlogs",
-        score:84,
-        growth:"+184%",
-        category:"rising",
-        sector:"Lifestyle",
-        market:"Global",
-        tags:["POV","Vlog","Lifestyle"]
-    },
+{
+name:"AI Shopping",
+category:"Technology",
+score:84,
+growth:"+36%",
+audience:"Consumidores digitales",
+why:"La IA está cambiando cómo los usuarios descubren y comparan productos.",
+opportunity:"Crear experiencias de descubrimiento de producto asistidas por IA.",
+idea:"Vídeos tipo 'deja que la IA elija mi producto' adaptados a TikTok o Reels.",
+window:"Próximas semanas",
+action:"Crear un experimento de contenido alrededor de recomendaciones."
+},
 
-    {
-        name:"Street Beauty Check",
-        score:81,
-        growth:"+161%",
-        category:"rising",
-        sector:"Beauty",
-        market:"Spain",
-        tags:["Street","Beauty","Interview"]
-    },
+{
+name:"Micro Communities",
+category:"Social",
+score:79,
+growth:"+31%",
+audience:"Comunidades de intereses específicos",
+why:"Los usuarios buscan espacios pequeños con intereses compartidos.",
+opportunity:"Construir comunidades de nicho alrededor de problemas concretos.",
+idea:"Crear contenido que hable directamente a un micro-nicho en lugar de intentar llegar a todo el mundo.",
+window:"1–3 meses",
+action:"Identificar un nicho concreto y probar contenido especializado."
+}
+],
 
-    {
-        name:"Micro Creator Reviews",
-        score:78,
-        growth:"+145%",
-        category:"rising",
-        sector:"Ecommerce",
-        market:"Europe",
-        tags:["Creator","Reviews","UGC"]
-    },
+usa:[
+{
+name:"AI Shopping Agents",
+category:"Technology",
+score:95,
+growth:"+61%",
+audience:"Digital-first consumers",
+why:"La IA empieza a ocupar más etapas del proceso de descubrimiento y compra.",
+opportunity:"Las marcas pueden experimentar con experiencias de compra asistidas por IA.",
+idea:"Contenido mostrando cómo una IA compara diferentes opciones antes de comprar.",
+window:"Próximas semanas",
+action:"Investigar casos de uso de AI commerce."
+},
 
-    {
-        name:"Photo Dump Story",
-        score:74,
-        growth:"+126%",
-        category:"emerging",
-        sector:"Lifestyle",
-        market:"Global",
-        tags:["Photo","Story"]
-    },
+{
+name:"Creator-led Brands",
+category:"Commerce",
+score:91,
+growth:"+49%",
+audience:"Gen Z / Millennials",
+why:"Los creadores están pasando de promocionar productos a construir marcas.",
+opportunity:"Colaborar con creadores desde las primeras fases de una campaña.",
+idea:"Documentar el proceso de creación de un producto con un creador.",
+window:"1–2 meses",
+action:"Buscar creadores con comunidades de nicho."
+},
 
-    {
-        name:"Silent Product Demo",
-        score:69,
-        growth:"+104%",
-        category:"emerging",
-        sector:"Ecommerce",
-        market:"Global",
-        tags:["Product","Demo"]
-    },
+{
+name:"Search Everywhere",
+category:"Media",
+score:86,
+growth:"+38%",
+audience:"Usuarios jóvenes",
+why:"La búsqueda de información se está distribuyendo entre diferentes plataformas.",
+opportunity:"Optimizar contenido para múltiples superficies de descubrimiento.",
+idea:"Crear una misma idea adaptada a TikTok, YouTube y otras plataformas.",
+window:"1–3 meses",
+action:"Crear una estrategia de contenido multiplataforma."
+}
+],
 
-    {
-        name:"Old Internet Edit",
-        score:57,
-        growth:"+61%",
-        category:"saturated",
-        sector:"Entertainment",
-        market:"Global",
-        tags:["Edit","Nostalgia"]
-    }
+china:[
+{
+name:"AI Wearables",
+category:"Technology",
+score:93,
+growth:"+57%",
+audience:"Tech consumers",
+why:"Los dispositivos inteligentes están integrando cada vez más funciones de IA.",
+opportunity:"Explorar narrativas de producto centradas en utilidad y personalización.",
+idea:"Contenido mostrando tareas cotidianas realizadas con dispositivos inteligentes.",
+window:"Próximas semanas",
+action:"Monitorizar adopción y comportamiento del consumidor."
+},
 
-];
+{
+name:"Social Commerce",
+category:"Commerce",
+score:90,
+growth:"+52%",
+audience:"Mobile shoppers",
+why:"El descubrimiento y la compra están cada vez más conectados.",
+opportunity:"Combinar contenido, comunidad y comercio.",
+idea:"Formato de vídeo que pasa directamente de descubrimiento a producto.",
+window:"1–2 meses",
+action:"Experimentar con formatos de contenido comprable."
+},
+
+{
+name:"Digital Lifestyle",
+category:"Lifestyle",
+score:82,
+growth:"+33%",
+audience:"Urban consumers",
+why:"La tecnología se integra progresivamente en experiencias cotidianas.",
+opportunity:"Posicionar productos alrededor de mejoras concretas del día a día.",
+idea:"Serie 'un día con tecnología inteligente'.",
+window:"1–3 meses",
+action:"Analizar microtendencias de lifestyle."
+}
+],
+
+uk:[
+{
+name:"Micro Influencers",
+category:"Social",
+score:85,
+growth:"+34%",
+audience:"Niche communities",
+why:"Las comunidades pequeñas pueden ofrecer una relación más cercana entre creador y audiencia.",
+opportunity:"Colaboraciones con perfiles especializados.",
+idea:"Reviews honestas y contenido educativo.",
+window:"1–2 meses",
+action:"Identificar microcreadores."
+},
+
+{
+name:"AI Productivity",
+category:"Technology",
+score:82,
+growth:"+29%",
+audience:"Students & professionals",
+why:"La IA se integra en tareas cotidianas.",
+opportunity:"Contenido educativo alrededor de productividad.",
+idea:"'5 formas de usar IA para ahorrar tiempo'.",
+window:"Próximos meses",
+action:"Crear contenido educativo."
+},
+
+{
+name:"Community Brands",
+category:"Branding",
+score:77,
+growth:"+25%",
+audience:"Niche audiences",
+why:"Las marcas están buscando relaciones más profundas con sus comunidades.",
+opportunity:"Crear espacios propios de comunidad.",
+idea:"Contenido generado junto a miembros de la comunidad.",
+window:"1–3 meses",
+action:"Testear una comunidad temática."
+}
+],
+
+japan:[
+{
+name:"Smart Living",
+category:"Lifestyle",
+score:84,
+growth:"+39%",
+audience:"Urban consumers",
+why:"La tecnología se integra cada vez más en rutinas diarias.",
+opportunity:"Posicionar productos alrededor de comodidad y eficiencia.",
+idea:"Contenido 'day in the life'.",
+window:"1–2 meses",
+action:"Explorar casos de uso cotidianos."
+},
+
+{
+name:"Compact Tech",
+category:"Technology",
+score:79,
+growth:"+28%",
+audience:"Tech enthusiasts",
+why:"Los consumidores valoran soluciones tecnológicas eficientes y compactas.",
+opportunity:"Mostrar utilidad más que especificaciones.",
+idea:"Antes/después utilizando tecnología.",
+window:"1–3 meses",
+action:"Testear contenido visual."
+},
+
+{
+name:"Experience Commerce",
+category:"Commerce",
+score:75,
+growth:"+24%",
+audience:"Young consumers",
+why:"La experiencia alrededor del producto se vuelve parte importante de la compra.",
+opportunity:"Crear experiencias memorables.",
+idea:"Contenido centrado en experiencia.",
+window:"1–3 meses",
+action:"Diseñar campañas experienciales."
+}
+],
+
+korea:[
+{
+name:"Creator Commerce",
+category:"Commerce",
+score:92,
+growth:"+55%",
+audience:"Gen Z",
+why:"Los creadores tienen una fuerte influencia sobre descubrimiento y preferencias.",
+opportunity:"Construir campañas nativas para comunidades digitales.",
+idea:"Creator challenge alrededor del producto.",
+window:"Próximas semanas",
+action:"Encontrar creadores especializados."
+},
+
+{
+name:"Beauty Tech",
+category:"Technology",
+score:89,
+growth:"+48%",
+audience:"Beauty consumers",
+why:"Tecnología y experiencias de belleza están convergiendo.",
+opportunity:"Crear demostraciones visuales.",
+idea:"Antes/después y experimentos de producto.",
+window:"1–2 meses",
+action:"Experimentar con contenido visual."
+},
+
+{
+name:"Short Video Discovery",
+category:"Social",
+score:87,
+growth:"+41%",
+audience:"Young users",
+why:"El vídeo corto funciona como superficie de descubrimiento.",
+opportunity:"Crear contenido pensado para descubrimiento.",
+idea:"Series de vídeos de 15–30 segundos.",
+window:"Ahora",
+action:"Testear varias hooks."
+}
+],
+
+france:[
+{
+name:"Slow Commerce",
+category:"Lifestyle",
+score:76,
+growth:"+27%",
+audience:"Conscious consumers",
+why:"Algunos consumidores buscan compras más intencionales.",
+opportunity:"Comunicar calidad, historia y durabilidad.",
+idea:"Contenido detrás del producto.",
+window:"1–3 meses",
+action:"Probar storytelling."
+},
+
+{
+name:"Creator Culture",
+category:"Social",
+score:81,
+growth:"+32%",
+audience:"Young adults",
+why:"Los creadores siguen influyendo en descubrimiento.",
+opportunity:"Integrar creadores en storytelling.",
+idea:"Creator diaries.",
+window:"1–2 meses",
+action:"Experimentar con colaboraciones."
+},
+
+{
+name:"AI Creativity",
+category:"Technology",
+score:78,
+growth:"+29%",
+audience:"Creative professionals",
+why:"Las herramientas de IA están entrando en procesos creativos.",
+opportunity:"Mostrar procesos creativos híbridos.",
+idea:"Human + AI creative challenge.",
+window:"1–3 meses",
+action:"Crear una prueba creativa."
+}
+],
+
+germany:[
+{
+name:"AI Productivity",
+category:"Technology",
+score:80,
+growth:"+30%",
+audience:"Professionals",
+why:"Las herramientas de IA se incorporan a procesos de trabajo.",
+opportunity:"Educación y casos de uso.",
+idea:"Tutoriales prácticos.",
+window:"1–3 meses",
+action:"Crear contenido educativo."
+},
+
+{
+name:"Sustainable Tech",
+category:"Technology",
+score:78,
+growth:"+26%",
+audience:"Conscious consumers",
+why:"Tecnología y sostenibilidad están convergiendo.",
+opportunity:"Comunicar eficiencia y uso responsable.",
+idea:"Explainer de producto.",
+window:"1–3 meses",
+action:"Testear mensajes educativos."
+},
+
+{
+name:"Community Commerce",
+category:"Commerce",
+score:74,
+growth:"+23%",
+audience:"Niche communities",
+why:"Las comunidades especializadas pueden generar confianza.",
+opportunity:"Construir autoridad dentro del nicho.",
+idea:"Contenido generado con la comunidad.",
+window:"1–3 meses",
+action:"Crear una comunidad piloto."
+}
+]
+
+};
 
 
-/* =========================================
-   RENDER TRENDS
-========================================= */
+/* =====================================================
+COUNTRY NAMES
+===================================================== */
 
-function renderTrends(data){
+const countryNames={
 
-    const container =
-        document.getElementById("trendList");
+spain:"🇪🇸 España",
+usa:"🇺🇸 Estados Unidos",
+china:"🇨🇳 China",
+uk:"🇬🇧 Reino Unido",
+japan:"🇯🇵 Japón",
+korea:"🇰🇷 Corea del Sur",
+france:"🇫🇷 Francia",
+germany:"🇩🇪 Alemania"
 
-    container.innerHTML = "";
+};
 
-    data.forEach((trend,index)=>{
 
-        const item =
-            document.createElement("div");
+/* =====================================================
+LOAD COUNTRY
+===================================================== */
 
-        item.className = "trend";
+function selectCountry(country,button){
 
-        item.onclick = function(){
+document.querySelectorAll(".country").forEach(function(btn){
 
-            openTrend(
-                trend.name,
-                trend.score
-            );
+btn.classList.remove("active");
 
-        };
+});
 
-        item.innerHTML = `
+button.classList.add("active");
 
-            <div class="rank">
-                #${index + 1}
-            </div>
+document.getElementById("marketTitle").textContent=
+countryNames[country]+" — Emerging trends";
 
-            <div>
-
-                <div class="trend-name">
-                    ${trend.name}
-                </div>
-
-                <div class="tags">
-
-                    <span class="tag green-tag">
-                        ${trend.category}
-                    </span>
-
-                    <span class="tag">
-                        ${trend.sector}
-                    </span>
-
-                    <span class="tag">
-                        ${trend.market}
-                    </span>
-
-                    ${trend.tags.map(tag => `
-                        <span class="tag">
-                            ${tag}
-                        </span>
-                    `).join("")}
-
-                </div>
-
-            </div>
-
-            <div class="score">
-
-                <div class="score-number">
-                    ${trend.score}
-                </div>
-
-                <div class="score-title">
-                    TREND SCORE
-                </div>
-
-                <div class="growth">
-                    ${trend.growth}
-                </div>
-
-            </div>
-        `;
-
-        container.appendChild(item);
-
-    });
+renderTrends(country);
 
 }
 
 
-/* =========================================
-   FILTER
-========================================= */
+/* =====================================================
+RENDER TRENDS
+===================================================== */
 
-function filterTrends(category,button){
+function renderTrends(country){
 
-    document
-        .querySelectorAll(".filter")
-        .forEach(btn=>{
-            btn.classList.remove("active");
-        });
+const grid=document.getElementById("trendGrid");
 
-    button.classList.add("active");
+grid.innerHTML="";
 
-    if(category === "all"){
+const countryTrends=trends[country];
 
-        renderTrends(trends);
+countryTrends.forEach(function(trend,index){
 
-    }else{
+const card=document.createElement("article");
 
-        renderTrends(
-            trends.filter(
-                trend => trend.category === category
-            )
-        );
+card.className="trend-card";
 
-    }
+card.innerHTML=`
 
-}
+<div class="trend-top">
 
+<div>
 
-/* =========================================
-   SEARCH
-========================================= */
+<div class="trend-title">
+${trend.name}
+</div>
 
-function searchTrends(){
+<div class="trend-category">
+${trend.category} · DEMO
+</div>
 
-    const query =
-        document
-        .getElementById("search")
-        .value
-        .toLowerCase();
+</div>
 
-    const result =
-        trends.filter(trend =>
+<div class="trend-score">
+${trend.score}
+</div>
 
-            trend.name
-            .toLowerCase()
-            .includes(query)
-
-            ||
-
-            trend.sector
-            .toLowerCase()
-            .includes(query)
-
-            ||
-
-            trend.tags
-            .join(" ")
-            .toLowerCase()
-            .includes(query)
-
-        );
-
-    renderTrends(result);
-
-}
+</div>
 
 
-/* =========================================
-   OPEN TREND
-========================================= */
+<div class="trend-info">
 
-function openTrend(name,score){
+<div style="display:flex;justify-content:space-between;font-size:10px;color:#7e8a9c;margin-bottom:6px;">
 
-    document
-        .getElementById("modalTitle")
-        .innerText = name;
+<span>Momentum</span>
 
-    document
-        .getElementById("modalScore")
-        .innerText = score;
+<strong style="color:#65d391">
+${trend.growth}
+</strong>
 
-    document
-        .getElementById("barFill")
-        .style.width = score + "%";
+</div>
 
+<div class="progress">
 
-    document
-        .getElementById("modalText")
-        .innerHTML = `
+<div class="progress-fill" style="width:${trend.score}%"></div>
 
-        <strong style="color:#fff">
-        Why TrendRadar detected this signal
-        </strong>
+</div>
 
-        <br><br>
-
-        The system has detected an acceleration
-        in creator adoption and audience interaction
-        while mainstream saturation remains relatively low.
-
-        <br><br>
-
-        <strong style="color:#fff">
-        Recommended action
-        </strong>
-
-        <br><br>
-
-        Test an original version of this trend while
-        the opportunity window is still open.
-
-        `;
+</div>
 
 
-    document
-        .getElementById("modal")
-        .classList.add("show");
+<div class="stats">
+
+<div class="stat">
+
+<small>Audience</small>
+
+<strong>${trend.audience}</strong>
+
+</div>
+
+<div class="stat">
+
+<small>Category</small>
+
+<strong>${trend.category}</strong>
+
+</div>
+
+<div class="stat">
+
+<small>Window</small>
+
+<strong>${trend.window}</strong>
+
+</div>
+
+</div>
+
+
+<button class="analyze"
+onclick="analyzeTrend('${country}',${index})">
+
+✦ Analyze trend
+
+</button>
+
+`;
+
+grid.appendChild(card);
+
+});
 
 }
 
 
-/* =========================================
-   CLOSE MODAL
-========================================= */
+/* =====================================================
+ANALYZE TREND
+===================================================== */
+
+function analyzeTrend(country,index){
+
+const trend=trends[country][index];
+
+/* Main analysis section */
+
+document.getElementById("resultEmpty").style.display="none";
+
+document.getElementById("resultContent").classList.add("show");
+
+document.getElementById("resultTitle").textContent=trend.name;
+
+document.getElementById("resultCountry").textContent=
+countryNames[country]+" · "+trend.category;
+
+document.getElementById("resultWhy").textContent=trend.why;
+
+document.getElementById("resultAudience").textContent=trend.audience;
+
+document.getElementById("resultOpportunity").textContent=trend.opportunity;
+
+document.getElementById("resultContentIdea").textContent=trend.idea;
+
+document.getElementById("resultWindow").textContent=trend.window;
+
+
+/* Modal */
+
+document.getElementById("modalTitle").textContent=trend.name;
+
+document.getElementById("modalMeta").textContent=
+countryNames[country]+" · "+trend.category+" · Score "+trend.score;
+
+document.getElementById("modalSignal").textContent=
+"Momentum score "+trend.score+" con una variación estimada de "+trend.growth+" en esta demo.";
+
+document.getElementById("modalWhy").textContent=trend.why;
+
+document.getElementById("modalAudience").textContent=trend.audience;
+
+document.getElementById("modalOpportunity").textContent=trend.opportunity;
+
+document.getElementById("modalIdea").textContent=trend.idea;
+
+document.getElementById("modalAction").textContent=trend.action;
+
+document.getElementById("analysisModal").classList.add("show");
+
+}
+
+
+/* =====================================================
+CLOSE MODAL
+===================================================== */
 
 function closeModal(){
 
-    document
-        .getElementById("modal")
-        .classList.remove("show");
+document.getElementById("analysisModal").classList.remove("show");
 
 }
 
 
-/* =========================================
-   AI ANALYSIS
-========================================= */
+/* Close clicking outside */
 
-function openAI(){
+document.getElementById("analysisModal").addEventListener("click",function(event){
 
-    openTrend(
-        "AI Trend Intelligence",
-        94
-    );
+if(event.target===this){
 
-    document
-        .getElementById("modalText")
-        .innerHTML = `
+closeModal();
 
-        <strong style="color:#fff">
-        AI predictive analysis
-        </strong>
+}
 
-        <br><br>
+});
 
-        TrendRadar doesn't simply rank the biggest
-        trends. The future system will analyse
-        acceleration patterns to identify signals
-        before mainstream saturation.
 
-        <br><br>
+/* Escape key */
 
-        Signals analysed:
+document.addEventListener("keydown",function(event){
 
-        <br><br>
+if(event.key==="Escape"){
 
-        • Creator adoption<br>
-        • Engagement acceleration<br>
-        • Search growth<br>
-        • Hashtag velocity<br>
-        • Audio adoption<br>
-        • Geographic expansion<br>
-        • Content format repetition<br>
-        • Audience behaviour
+closeModal();
 
-        <br><br>
+}
 
-        <strong style="color:#8cffc4">
-        AI confidence: 94%
-        </strong>
+});
 
-        `;
+
+/* =====================================================
+AI CONTENT GENERATOR
+===================================================== */
+
+function generateContent(){
+
+const brand=
+document.getElementById("brand").value.trim() || "tu marca";
+
+const platform=
+document.getElementById("platform").value;
+
+const trend=
+document.getElementById("contentTrend").value.trim() || "esta tendencia";
+
+const objective=
+document.getElementById("objective").value;
+
+const context=
+document.getElementById("context").value.trim();
+
+const result=
+document.getElementById("contentResult");
+
+const output=
+document.getElementById("generatedContent");
+
+output.textContent=
+`DEMO AI: ${brand} podría aprovechar "${trend}" mediante una pieza de contenido para ${platform}, orientada a ${objective.toLowerCase()}. Hook sugerido: "Todo el mundo está empezando a hablar de esto...". La pieza debería presentar la tendencia de forma natural, conectar con el producto y terminar con una llamada a la acción. ${context ? "Contexto utilizado: "+context : ""}`;
+
+result.classList.add("show");
 
 }
 
 
-/* =========================================
-   GENERATE OPPORTUNITY
-========================================= */
+/* =====================================================
+INITIAL LOAD
+===================================================== */
 
-function generateOpportunity(){
-
-    const random =
-        trends[
-            Math.floor(
-                Math.random() * trends.length
-            )
-        ];
-
-    alert(
-
-`NEW MARKETING OPPORTUNITY
-
-Trend:
-${random.name}
-
-Trend Score:
-${random.score}/100
-
-Growth:
-${random.growth}
-
-Sector:
-${random.sector}
-
-Market:
-${random.market}
-
-AI RECOMMENDATION:
-
-Enter the trend early with an original
-brand interpretation.
-
-Recommended strategy:
-Test multiple creative variations before
-scaling the campaign.`
-
-    );
-
-}
-
-
-/* =========================================
-   CONTENT IDEA
-========================================= */
-
-function generateIdea(){
-
-    alert(
-
-`AI CONTENT IDEA
-
-TREND:
-Authentic Micro-Review
-
-HOOK:
-"Nobody is talking about this yet..."
-
-STRUCTURE:
-
-01 — Immediate hook
-02 — Introduce the product
-03 — Authentic reaction
-04 — Show the result
-05 — Short CTA
-
-OBJECTIVE:
-
-Capture the trend while competition
-is still relatively low.`
-
-    );
-
-}
-
-
-/* =========================================
-   REFRESH
-========================================= */
-
-function refreshRadar(){
-
-    const element =
-        document.getElementById("emerging");
-
-    let number =
-        parseInt(element.innerText);
-
-    number +=
-        Math.floor(
-            Math.random() * 9
-        ) - 3;
-
-    element.innerText = number;
-
-    renderTrends(trends);
-
-}
-
-
-/* =========================================
-   CLOSE MODAL OUTSIDE
-========================================= */
-
-document
-    .getElementById("modal")
-    .addEventListener(
-        "click",
-        function(event){
-
-            if(event.target === this){
-                closeModal();
-            }
-
-        }
-    );
-
-
-/* =========================================
-   START
-========================================= */
-
-renderTrends(trends);
+renderTrends("spain");
 
 </script>
+
+
+<!--
+=========================================================
+IMPORTANT
+=========================================================
+
+Esta versión utiliza datos de DEMOSTRACIÓN.
+
+El sistema de análisis funciona sobre el dataset incluido
+en este HTML.
+
+Para convertir AuraMetrics en una plataforma real habrá
+que conectar posteriormente:
+
+- Google Trends / fuentes de búsqueda
+- APIs de redes sociales disponibles legalmente
+- Noticias
+- Reddit u otras fuentes permitidas
+- Datos de mercado
+- Base de datos
+- Backend
+- Modelo de IA
+- Sistema de alertas
+- Autenticación
+- Sistema de cuentas
+- Billing
+
+NO introducir API keys directamente en index.html.
+
+=========================================================
+-->
 
 </body>
 </html>
