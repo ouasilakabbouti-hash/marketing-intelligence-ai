@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AuraMetrics - Plataforma Modular DEMO</title>
+  <title>TrendRadar AI — Centro de Inteligencia de Tendencias para Marcas</title>
   <style>
     /* ==========================================================================
-       VARIABLES Y ESTILOS BASE (Original CSS Framework)
+       VARIABLES Y ESTILOS BASE (Original CSS - Modern Dark Dashboard)
        ========================================================================== */
     :root {
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --bg-card: #334155;
-      --accent-primary: #3b82f6;
-      --accent-hover: #2563eb;
-      --text-main: #f8fafc;
+      --bg-dark: #0b0f19;
+      --bg-card: #151c2c;
+      --bg-card-hover: #1e273a;
+      --border-color: #2a354d;
+      --accent-blue: #38bdf8;
+      --accent-purple: #818cf8;
+      --accent-fire: #f97316;
+      --text-primary: #f8fafc;
       --text-muted: #94a3b8;
-      --border-color: #475569;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     * {
@@ -29,179 +30,312 @@
     }
 
     body {
-      background-color: var(--bg-primary);
-      color: var(--text-main);
-      font-family: var(--font-family);
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: var(--font-stack);
+      line-height: 1.5;
+      padding-bottom: 3rem;
     }
 
-    /* HEADER & NAV */
+    /* HEADER & NAVEGACIÓN */
     header {
-      background-color: var(--bg-secondary);
+      background-color: rgba(21, 28, 44, 0.8);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .brand-logo {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-weight: 700;
+      gap: 0.75rem;
+      font-weight: 800;
       font-size: 1.25rem;
-      color: var(--text-main);
+      letter-spacing: -0.5px;
     }
 
-    /* SVG Logo Vectorial Creado por Código */
-    .brand-logo svg {
+    /* Logo Vectorial Original */
+    .brand svg {
       width: 28px;
       height: 28px;
-      fill: var(--accent-primary);
+      fill: none;
+      stroke: var(--accent-blue);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     nav {
       display: flex;
       gap: 1.5rem;
+      align-items: center;
     }
 
     nav a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
     }
 
-    nav a:hover, nav a.active {
-      color: var(--text-main);
+    nav a:hover {
+      color: var(--text-primary);
     }
 
-    /* CONTAINER & LAYOUT */
-    .container {
+    .btn-cta {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: #fff;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    /* HERO SECTION */
+    .hero {
       max-width: 1200px;
-      margin: 2rem auto;
+      margin: 3rem auto 2rem;
       padding: 0 1.5rem;
-      width: 100%;
-      flex: 1;
+      text-align: center;
     }
 
-    .demo-badge {
+    .badge-demo {
       display: inline-block;
-      background-color: var(--warning);
-      color: #000;
-      font-weight: bold;
+      background-color: rgba(251, 191, 36, 0.1);
+      color: var(--warning);
+      border: 1px solid var(--warning);
       font-size: 0.75rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 1rem;
     }
 
-    /* CARDS & DASHBOARD */
-    .grid-dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #ffffff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .card {
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 1.5rem;
-    }
-
-    .card h3 {
-      font-size: 1rem;
+    .hero p {
       color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* CONTENEDOR PRINCIPAL / GRID */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin: 2.5rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .grid-trends {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* TARJETAS DE TENDENCIAS */
+    .card-trend {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+
+    .card-trend:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-blue);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .country-tag {
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    .growth-badge {
+      color: var(--success);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .card-trend h3 {
+      font-size: 1.2rem;
       margin-bottom: 0.5rem;
     }
 
-    .card .metric {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    /* DIBUJO VECTORIAL DE GRÁFICO (Canvas/SVG Vanilla) */
-    .chart-container {
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    .custom-bar-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 1rem;
-      height: 180px;
-      padding-top: 2rem;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .bar-group {
-      flex: 1;
+    .meta-list {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 1rem 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      height: 100%;
-      justify-content: flex-end;
+      gap: 0.4rem;
     }
 
-    .bar {
+    .meta-list span {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .btn-strategy {
       width: 100%;
-      max-width: 40px;
-      background-color: var(--accent-primary);
-      border-radius: 4px 4px 0 0;
-      transition: height 0.3s ease;
-    }
-
-    .bar-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+      background-color: rgba(56, 189, 248, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue);
+      padding: 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
       margin-top: 0.5rem;
     }
 
-    /* SECCIÓN LEGAL */
-    .legal-content {
-      background-color: var(--bg-secondary);
+    .btn-strategy:hover {
+      background-color: var(--accent-blue);
+      color: #000;
+    }
+
+    /* MODAL DE GENERACIÓN DE ESTRATEGIA (SIMULACIÓN IA) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
       padding: 2rem;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* PRECIOS / MODELO DE MONETIZACIÓN */
+    .grid-pricing {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
       margin-top: 2rem;
     }
 
-    .legal-warning {
-      background-color: rgba(245, 158, 11, 0.1);
-      border-left: 4px solid var(--warning);
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      color: var(--warning);
+    .card-price {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
     }
 
-    /* FOOTER */
-    footer {
-      background-color: var(--bg-secondary);
-      border-top: 1px solid var(--border-color);
+    .card-price.popular {
+      border-color: var(--accent-purple);
+      position: relative;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 1rem 0;
+    }
+
+    .price span {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* SECCIÓN LEGAL */
+    .legal-container {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
       padding: 2rem;
-      text-align: center;
+      margin-top: 4rem;
       font-size: 0.85rem;
       color: var(--text-muted);
-      margin-top: 3rem;
     }
 
-    footer a {
-      color: var(--accent-primary);
-      text-decoration: none;
+    .legal-container h2 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .draft-badge {
+      background-color: rgba(249, 115, 22, 0.1);
+      color: var(--accent-fire);
+      border: 1px solid var(--accent-fire);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
   </style>
 </head>
@@ -209,102 +343,193 @@
 
   <!-- NAVEGACIÓN PRINCIPAL -->
   <header>
-    <div class="brand-logo">
+    <div class="brand">
       <svg viewBox="0 0 24 24">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        <path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"/>
+        <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+        <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
       </svg>
-      <span>AuraMetrics</span>
+
+      <span>TrendRadar AI</span>
     </div>
     <nav>
-      <a href="#dashboard" class="active">Panel</a>
-      <a href="#legal">Documentación Legal</a>
+      <a href="#radar">Radar</a>
+      <a href="#precios">Planes</a>
+      <a href="#legal">Legal</a>
+      <a href="#precios" class="btn-cta">Probar Gratis</a>
     </nav>
   </header>
 
-  <main class="container">
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <span class="badge-demo">DEMO DATA — PLATAFORMA DE PRUEBA</span>
+    <h1>Detecta Oportunidades Antes que tu Competencia</h1>
+    <p>Centro de inteligencia de marketing basado en IA. Anticipa tendencias de producto, contenido y mercado para marcas y empresas.</p>
+  </section>
+
+  <!-- RADAR DE TENDENCIAS (SAMPLE DATA) -->
+  <main class="container" id="radar">
+    <h2 class="section-title">🚨 Tendencias Detectadas Hoy (SAMPLE DATA)</h2>
     
-    <!-- DASHBOARD DE DEMOSTRACIÓN -->
-    <section id="dashboard">
-      <span class="demo-badge">SAMPLE DATA — DEMO ONLY</span>
-      <h2>Métricas Globales de Rendimiento (Ficticias)</h2>
-      <p style="color: var(--text-muted);">Los datos presentados son exclusivamente para fines de demostración de la interfaz.</p>
-
-      <div class="grid-dashboard">
-        <div class="card">
-          <h3>Procesos Activos (DEMO DATA)</h3>
-          <div class="metric" id="metric-processes">1,248</div>
+    <div class="grid-trends">
+      
+      <!-- Tarjeta 1 -->
+      <div class="card-trend">
+        <div class="card-header">
+          <span class="country-tag">🇪🇸 España</span>
+          <span class="growth-badge">+218% ↑</span>
         </div>
-        <div class="card">
-          <h3>Tiempo de Respuesta (DEMO DATA)</h3>
-          <div class="metric">42 ms</div>
-        </div>
-        <div class="card">
-          <h3>Eficiencia del Sistema (DEMO DATA)</h3>
-          <div class="metric" style="color: var(--success);">99.4%</div>
-        </div>
+        <h3>Moda Sostenible / Botellas Térmicas Compactas</h3>
+        <ul class="meta-list">
+          <li>Categoría: <span>Lifestyle & Accesorios</span></li>
+          <li>Público Objetivo: <span>16–24 años (Gen Z)</span></li>
+          <li>Aceleración: <span>Alta (Acelerando)</span></li>
+          <li>Probabilidad Mainstream: <span>89%</span></li>
+        </ul>
+        <button class="btn-strategy" onclick="openStrategyModal('Botellas Térmicas Compactas', '🇪🇸 España')">⚡ Crear Estrategia con IA</button>
       </div>
 
-      <!-- Gráfico Renderizado con Estructura HTML/CSS Propia (Sin Librerías) -->
-      <div class="chart-container">
-        <h3>Rendimiento Semanal (DEMO DATA)</h3>
-        <div class="custom-bar-chart">
-          <div class="bar-group">
-            <div class="bar" style="height: 40%;"></div>
-            <span class="bar-label">Lun</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar" style="height: 65%;"></div>
-            <span class="bar-label">Mar</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar" style="height: 85%;"></div>
-            <span class="bar-label">Mié</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar" style="height: 50%;"></div>
-            <span class="bar-label">Jue</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar" style="height: 95%;"></div>
-            <span class="bar-label">Vie</span>
-          </div>
+      <!-- Tarjeta 2 -->
+      <div class="card-trend">
+        <div class="card-header">
+          <span class="country-tag">🇺🇸 EE. UU.</span>
+          <span class="growth-badge">+340% ↑</span>
         </div>
+        <h3>Snacks Funcionales de Proteína Vegetal</h3>
+        <ul class="meta-list">
+          <li>Categoría: <span>Alimentación & Salúd</span></li>
+          <li>Público Objetivo: <span>22–35 años</span></li>
+          <li>Aceleración: <span>Muy Alta</span></li>
+          <li>Probabilidad Mainstream: <span>94%</span></li>
+        </ul>
+        <button class="btn-strategy" onclick="openStrategyModal('Snacks Proteína Vegetal', '🇺🇸 EE. UU.')">⚡ Crear Estrategia con IA</button>
       </div>
-    </section>
 
-    <!-- SECCIÓN PRIVACIDAD Y MARCO LEGAL -->
-    <section id="legal" class="legal-content">
-      <div class="legal-warning">
-        <strong>BORRADOR LEGAL — REQUIERE REVISIÓN PROFESIONAL:</strong> Este texto es una plantilla conceptual y no constituye asesoramiento jurídico real. Debe ser adaptado por un profesional cualificado a la legislación correspondiente antes del despliegue en producción.
+      <!-- Tarjeta 3 -->
+      <div class="card-trend">
+        <div class="card-header">
+          <span class="country-tag">🇬🇧 Reino Unido</span>
+          <span class="growth-badge">+180% ↑</span>
+        </div>
+        <h3>Audio Asmr / Auriculares Ergonómicos Nocturnos</h3>
+        <ul class="meta-list">
+          <li>Categoría: <span>Tecnología & Bienestar</span></li>
+          <li>Público Objetivo: <span>18–30 años</span></li>
+          <li>Aceleración: <span>Estable</span></li>
+          <li>Probabilidad Mainstream: <span>76%</span></li>
+        </ul>
+        <button class="btn-strategy" onclick="openStrategyModal('Auriculares Nocturnos', '🇬🇧 Reino Unido')">⚡ Crear Estrategia con IA</button>
       </div>
 
-      <h2>Aviso Legal y Política de Privacidad (Borrador)</h2>
-      <br>
-      <h3>1. Principios de Privacidad por Diseño</h3>
-      <p>Este sitio web ha sido estructurado garantizando la minimización de datos. No se utilizan cookies de rastreo de terceros ni se recopila información personal sin interacción directa y consentimiento explícito.</p>
-      <br>
-      <h3>2. Uso de Datos</h3>
-      <p>Cualquier dato transmitido en futuras implementaciones se procesará exclusivamente con el fin técnico de proveer el servicio solicitado, utilizando conexiones cifradas de extremo a extremo gestionadas por el backend.</p>
-    </section>
+    </div>
+
+    <!-- SECCIÓN PLANES Y PRECIOS -->
+    <h2 class="section-title" id="precios" style="margin-top: 4rem;">💰 Planes y Suscripciones (DEMO)</h2>
+    <div class="grid-pricing">
+      
+      <div class="card-price">
+        <h3>Starter</h3>
+        <div class="price">29 € <span>/ mes</span></div>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Para pequeños creadores o proyectos individuales.</p>
+      </div>
+
+      <div class="card-price popular">
+        <span class="badge-demo" style="position: absolute; top:-12px; left:50%; transform: translateX(-50%); background: var(--accent-purple); color:#fff; border:none;">Recomendado</span>
+        <h3>Pro</h3>
+        <div class="price">99 € <span>/ mes</span></div>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Para marcas en crecimiento y agencias de marketing.</p>
+      </div>
+
+      <div class="card-price">
+        <h3>Business</h3>
+        <div class="price">299 € <span>/ mes</span></div>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Acceso completo a predicciones globales y exportación de datos.</p>
+      </div>
+
+      <div class="card-price">
+        <h3>Enterprise</h3>
+        <div class="price">Personalizado</div>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Informes a medida y conexión API dedicada.</p>
+      </div>
+
+    </div>
+
+    <!-- SECCIÓN COMPLIANCE Y MARCO LEGAL -->
+    <div class="legal-container" id="legal">
+      <span class="draft-badge">BORRADOR LEGAL — REQUIERE REVISIÓN PROFESIONAL</span>
+      <h2>Cumplimiento de Privacidad y Términos Legales</h2>
+      
+      <h3 style="color: var(--text-primary); margin-top: 1rem;">1. Aviso Legal (Plantilla)</h3>
+      <p>TrendRadar AI opera como un prototipo conceptual de inteligencia de mercado. Los contenidos expuestos tienen fines exclusivamente informativos y de demostración.</p>
+
+      <h3 style="color: var(--text-primary); margin-top: 1rem;">2. Política de Privacidad (Privacy by Design)</h3>
+      <p>Esta plataforma no recopila datos personales sin consentimiento explícito. No se utilizan cookies analíticas ni de terceros sin la aprobación del usuario.</p>
+
+      <h3 style="color: var(--text-primary); margin-top: 1rem;">3. Política de Cookies</h3>
+      <p>Solo se emplean cookies técnicas estrictamente necesarias para el funcionamiento y navegación por la web.</p>
+    </div>
 
   </main>
 
+  <!-- MODAL GENERADOR DE ESTRATEGIA (SIMULACIÓN DE IA) -->
+  <div class="modal" id="strategyModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeStrategyModal()">&times;</button>
+      <span class="badge-demo">IA GENERATIVE STRATEGY (SAMPLE)</span>
+      <h3 id="modalTitle" style="margin-bottom: 1rem;">Estrategia Generada</h3>
+      
+      <div id="modalBody" style="font-size: 0.9rem; color: var(--text-muted);">
+        <!-- Generado por JavaScript -->
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <p>&copy; 2026 AuraMetrics. Todos los derechos reservados. Desarrollado con código 100% original.</p>
+    <p>&copy; 2026 TrendRadar AI. Todos los derechos reservados. Desarrollado con código 100% original.</p>
   </footer>
 
   <script>
-    // Lógica JavaScript Vainilla Original - Simulación de actualización de datos de demostración
-    document.addEventListener('DOMContentLoaded', () => {
-      const metricElement = document.getElementById('metric-processes');
+    /* ==========================================================================
+       LÓGICA JAVASCRIPT VAINILLA (Simulación de Generación de Estrategia)
+       ========================================================================== */
+    function openStrategyModal(trendName, country) {
+      const modal = document.getElementById('strategyModal');
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+
+      title.textContent = `Estrategia IA para: ${trendName} (${country})`;
       
-      // Actualización de DEMO DATA de forma local y controlada
-      setInterval(() => {
-        const randomVariation = Math.floor(Math.random() * 10) - 5;
-        let currentValue = parseInt(metricElement.textContent.replace(',', ''));
-        metricElement.textContent = (currentValue + randomVariation).toLocaleString();
-      }, 3000);
-    });
+      body.innerHTML = `
+        <p><strong>Público recomendado:</strong> Jóvenes interesados en tendencias urbanas y sostenibilidad.</p>
+        <br>
+        <p><strong>Propuesta de Contenido (Redes Sociales):</strong></p>
+        <ul style="margin-left: 1.2rem; margin-top: 0.5rem;">
+          <li>Vídeo corto mostrando un "Unboxing / Uso Real" en situaciones cotidianas.</li>
+          <li>Colaboración con 3 micro-influencers locales en el sector Lifestyle.</li>
+        </ul>
+        <br>
+        <p><strong>Ventana de Oportunidad Sugerida:</strong> Próximos 7 a 14 días.</p>
+        <br>
+        <div style="background: rgba(255,255,255,0.05); padding: 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-blue);">
+          <em>Nota: Este plan ha sido simulado mediante DEMO DATA para la demostración técnica de la plataforma.</em>
+        </div>
+      `;
+
+      modal.style.display = 'flex';
+    }
+
+    function closeStrategyModal() {
+      document.getElementById('strategyModal').style.display = 'none';
+    }
+
+    // Cerrar modal al hacer clic fuera del contenido
+    window.onclick = function(event) {
+      const modal = document.getElementById('strategyModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
   </script>
 
   <!--
@@ -312,20 +537,22 @@
   THIRD-PARTY LICENSES
   ==========================================================================
   Recursos de terceros utilizados en este proyecto:
-  
-  NINGUNO. 
-  
-  Todo el diseño, la hoja de estilos CSS, la lógica de simulación en JavaScript 
-  y los iconos SVG incluidos en este documento han sido generados desde cero 
-  específicamente para este proyecto como código original de dominio/autoría propio.
-  
-  - Fuentes: Tipografías del sistema nativas (System Fonts Stack / Zero External Load).
-  - Frameworks: Ninguno (CSS Vanilla + HTML5 Semántico + JS ES6+ Native).
-  - Iconos: SVG inline dibujados mediante coordenadas vectoriales propias.
-  
+
+  NINGUNO.
+
+  Todo el código HTML, la hoja de estilos CSS, la lógica de interacción en 
+  JavaScript y los elementos gráficos vectoriales SVG inline incluidos en 
+  este archivo han sido desarrollados íntegramente desde cero específicamente 
+  para este proyecto como obra original.
+
+  - Fuentes tipográficas: Tipografías nativas del sistema (System Fonts Stack / CSS Cero Cargas Externas).
+  - Frameworks / Librerías: Ninguno (Desarrollo nativo en HTML5, CSS3, ES6+).
+  - Iconos: Gráficos vectoriales SVG creados mediante código propio.
+
   Exención de responsabilidad de IP:
-  El código proporcionado es totalmente limpio, auditable y comercializable. 
-  No ostenta certificación de auditoría jurídica sobre patentes o marcas globales de nombres comerciales idénticos.
+  El código entregado es de autoría propia, reutilizable y comercializable.
+  No se incluye ninguna certificación ni garantía explícita sobre marcas registradas
+  que puedan coincidir comercialmente con términos generados en los ejemplos demostrativos.
   ==========================================================================
   -->
 </body>
