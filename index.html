@@ -1,559 +1,1730 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TrendRadar AI — Centro de Inteligencia de Tendencias para Marcas</title>
-  <style>
-    /* ==========================================================================
-       VARIABLES Y ESTILOS BASE (Original CSS - Modern Dark Dashboard)
-       ========================================================================== */
-    :root {
-      --bg-dark: #0b0f19;
-      --bg-card: #151c2c;
-      --bg-card-hover: #1e273a;
-      --border-color: #2a354d;
-      --accent-blue: #38bdf8;
-      --accent-purple: #818cf8;
-      --accent-fire: #f97316;
-      --text-primary: #f8fafc;
-      --text-muted: #94a3b8;
-      --success: #34d399;
-      --warning: #fbbf24;
-      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrendRadar — Detect Trends Before They Explode</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#07080c;
+    --panel:#0d0f15;
+    --panel2:#11141c;
+    --border:rgba(255,255,255,.08);
+    --text:#f5f7fb;
+    --muted:#8b91a1;
+    --green:#7cffb2;
+    --blue:#6ca8ff;
+    --purple:#a77bff;
+    --orange:#ff9d5c;
+    --red:#ff5f75;
+}
+
+body{
+    background:
+        radial-gradient(circle at 80% -10%,rgba(124,255,178,.08),transparent 30%),
+        radial-gradient(circle at 10% 20%,rgba(108,168,255,.07),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,Arial,sans-serif;
+    min-height:100vh;
+}
+
+button,input,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:250px;
+    border-right:1px solid var(--border);
+    padding:25px 18px;
+    position:fixed;
+    height:100vh;
+    background:rgba(7,8,12,.9);
+    backdrop-filter:blur(20px);
+    z-index:20;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    font-weight:800;
+    font-size:19px;
+    margin-bottom:40px;
+}
+
+.logo-icon{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--green),var(--blue));
+    color:#050609;
+    display:grid;
+    place-items:center;
+    font-weight:900;
+}
+
+.logo span{
+    color:var(--green);
+}
+
+.nav-title{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    color:#5e6472;
+    margin:20px 10px 10px;
+}
+
+.nav-item{
+    padding:12px 13px;
+    border-radius:10px;
+    color:var(--muted);
+    margin:3px 0;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    transition:.2s;
+    font-size:14px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:rgba(124,255,178,.08);
+    color:var(--green);
+}
+
+.sidebar-bottom{
+    position:absolute;
+    bottom:25px;
+    left:18px;
+    right:18px;
+}
+
+.api-status{
+    border:1px solid var(--border);
+    padding:13px;
+    border-radius:12px;
+    background:rgba(255,255,255,.025);
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    background:var(--green);
+    border-radius:50%;
+    display:inline-block;
+    box-shadow:0 0 10px var(--green);
+    margin-right:7px;
+}
+
+.status-text{
+    font-size:11px;
+    color:var(--muted);
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:30px 35px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.page-title{
+    font-size:27px;
+    font-weight:750;
+    letter-spacing:-1px;
+}
+
+.page-subtitle{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.top-actions{
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    padding:10px 15px;
+    border-radius:9px;
+    transition:.2s;
+}
+
+.btn:hover{
+    border-color:rgba(124,255,178,.4);
+}
+
+.btn-primary{
+    background:var(--green);
+    color:#06100a;
+    border-color:var(--green);
+    font-weight:700;
+}
+
+/* HERO */
+
+.hero{
+    border:1px solid var(--border);
+    background:
+        radial-gradient(circle at 90% 40%,rgba(124,255,178,.1),transparent 25%),
+        linear-gradient(135deg,#0d1117,#0b0d13);
+    border-radius:18px;
+    padding:27px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    overflow:hidden;
+}
+
+.hero-label{
+    color:var(--green);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin-bottom:12px;
+}
+
+.hero h1{
+    font-size:31px;
+    letter-spacing:-1.5px;
+    max-width:620px;
+}
+
+.hero p{
+    color:var(--muted);
+    max-width:650px;
+    margin-top:10px;
+    line-height:1.6;
+    font-size:13px;
+}
+
+.live{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin-top:17px;
+    font-size:11px;
+    color:#a7adba;
+}
+
+.live-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 12px var(--green);
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:19px;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.stat-value{
+    font-size:28px;
+    font-weight:750;
+    margin:10px 0 5px;
+}
+
+.stat-change{
+    font-size:11px;
+    color:var(--green);
+}
+
+/* GRID */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.45fr .8fr;
+    gap:20px;
+}
+
+.panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.panel-header{
+    padding:19px 20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.panel-title{
+    font-size:14px;
+    font-weight:700;
+}
+
+.panel-subtitle{
+    font-size:10px;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+/* RADAR */
+
+.radar-wrap{
+    height:370px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.radar{
+    width:310px;
+    height:310px;
+    border-radius:50%;
+    border:1px solid rgba(124,255,178,.25);
+    position:relative;
+    background:
+        radial-gradient(circle,rgba(124,255,178,.08),transparent 67%),
+        repeating-radial-gradient(circle,transparent 0 48px,rgba(124,255,178,.13) 49px 50px);
+    box-shadow:0 0 50px rgba(124,255,178,.05);
+}
+
+.radar:before,
+.radar:after{
+    content:"";
+    position:absolute;
+    background:rgba(124,255,178,.12);
+}
+
+.radar:before{
+    width:100%;
+    height:1px;
+    top:50%;
+    left:0;
+}
+
+.radar:after{
+    height:100%;
+    width:1px;
+    left:50%;
+    top:0;
+}
+
+.sweep{
+    position:absolute;
+    width:50%;
+    height:50%;
+    top:0;
+    left:50%;
+    transform-origin:bottom left;
+    background:linear-gradient(45deg,rgba(124,255,178,.25),transparent 65%);
+    animation:sweep 4s linear infinite;
+    border-left:1px solid rgba(124,255,178,.4);
+}
+
+@keyframes sweep{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.radar-center{
+    position:absolute;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    background:var(--green);
+    left:calc(50% - 12px);
+    top:calc(50% - 12px);
+    box-shadow:0 0 25px var(--green);
+}
+
+.radar-point{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 15px var(--green);
+    animation:pulse 2s infinite;
+}
+
+.radar-point:after{
+    content:attr(data-name);
+    position:absolute;
+    left:15px;
+    top:-5px;
+    white-space:nowrap;
+    font-size:9px;
+    color:#cbd1db;
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1);opacity:.7}
+    50%{transform:scale(1.7);opacity:1}
+}
+
+.r1{left:68%;top:28%}
+.r2{left:32%;top:37%}
+.r3{left:74%;top:64%}
+.r4{left:42%;top:73%}
+.r5{left:57%;top:18%}
+.r6{left:23%;top:58%}
+
+/* TREND LIST */
+
+.trends{
+    display:flex;
+    flex-direction:column;
+}
+
+.trend{
+    padding:17px 20px;
+    border-bottom:1px solid var(--border);
+    display:grid;
+    grid-template-columns:40px 1fr auto;
+    gap:13px;
+    align-items:center;
+    transition:.2s;
+}
+
+.trend:hover{
+    background:rgba(255,255,255,.025);
+}
+
+.trend:last-child{
+    border-bottom:none;
+}
+
+.rank{
+    font-size:11px;
+    color:#5e6472;
+}
+
+.trend-name{
+    font-size:13px;
+    font-weight:650;
+}
+
+.trend-meta{
+    display:flex;
+    gap:8px;
+    margin-top:6px;
+    flex-wrap:wrap;
+}
+
+.tag{
+    font-size:9px;
+    color:#aab0bc;
+    border:1px solid var(--border);
+    border-radius:5px;
+    padding:3px 6px;
+}
+
+.tag.green{
+    color:var(--green);
+    border-color:rgba(124,255,178,.2);
+}
+
+.score{
+    text-align:right;
+}
+
+.score-number{
+    font-size:19px;
+    font-weight:800;
+}
+
+.score-label{
+    color:var(--green);
+    font-size:9px;
+}
+
+.growth{
+    color:var(--green);
+    font-size:10px;
+    margin-top:3px;
+}
+
+/* AI PANEL */
+
+.ai-content{
+    padding:20px;
+}
+
+.ai-box{
+    background:linear-gradient(135deg,rgba(167,123,255,.08),rgba(108,168,255,.04));
+    border:1px solid rgba(167,123,255,.16);
+    border-radius:12px;
+    padding:17px;
+    margin-bottom:14px;
+}
+
+.ai-title{
+    color:#c5aaff;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+}
+
+.ai-main{
+    font-size:17px;
+    font-weight:700;
+    margin-top:9px;
+    line-height:1.35;
+}
+
+.ai-text{
+    color:#9298a6;
+    font-size:11px;
+    line-height:1.6;
+    margin-top:9px;
+}
+
+.prediction{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.prediction-left{
+    font-size:11px;
+    color:var(--muted);
+}
+
+.prediction-value{
+    font-size:12px;
+    color:var(--green);
+    font-weight:700;
+}
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    gap:8px;
+    padding:15px 20px;
+    border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+}
+
+.filter{
+    background:#11141b;
+    border:1px solid var(--border);
+    color:#8e95a4;
+    border-radius:7px;
+    padding:7px 10px;
+    font-size:10px;
+}
+
+.filter.active{
+    color:var(--green);
+    border-color:rgba(124,255,178,.3);
+}
+
+/* SEARCH */
+
+.search{
+    background:#0b0d12;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 12px;
+    color:white;
+    outline:none;
+    width:200px;
+    font-size:11px;
+}
+
+.search:focus{
+    border-color:rgba(124,255,178,.4);
+}
+
+/* OPPORTUNITY */
+
+.opportunity{
+    margin-top:20px;
+    padding:21px;
+    border:1px solid rgba(124,255,178,.16);
+    background:linear-gradient(120deg,rgba(124,255,178,.045),transparent);
+    border-radius:14px;
+}
+
+.opportunity-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.opportunity h3{
+    font-size:14px;
+}
+
+.opportunity p{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:7px;
+}
+
+.opportunity-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.opp-card{
+    background:rgba(255,255,255,.025);
+    border:1px solid var(--border);
+    padding:14px;
+    border-radius:9px;
+}
+
+.opp-label{
+    color:#686f7d;
+    font-size:9px;
+    text-transform:uppercase;
+}
+
+.opp-value{
+    margin-top:7px;
+    font-size:12px;
+    font-weight:700;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(10px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:650px;
+    max-width:100%;
+    background:#0d1016;
+    border:1px solid var(--border);
+    border-radius:17px;
+    box-shadow:0 30px 100px rgba(0,0,0,.5);
+    overflow:hidden;
+}
+
+.modal-head{
+    padding:20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+}
+
+.close{
+    background:none;
+    border:0;
+    color:#7d8390;
+    font-size:20px;
+}
+
+.modal-body{
+    padding:22px;
+}
+
+.big-score{
+    font-size:55px;
+    font-weight:850;
+    color:var(--green);
+}
+
+.progress{
+    height:5px;
+    background:#1a1e27;
+    border-radius:10px;
+    overflow:hidden;
+    margin:10px 0 20px;
+}
+
+.progress-bar{
+    height:100%;
+    background:var(--green);
+    border-radius:10px;
+}
+
+.analysis{
+    color:#a4aab7;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.modal-actions{
+    display:flex;
+    gap:9px;
+    margin-top:20px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .sidebar{
+        width:70px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    .sidebar .nav-item span,
+    .sidebar .nav-title,
+    .sidebar-bottom,
+    .logo span{
+        display:none;
     }
 
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-primary);
-      font-family: var(--font-stack);
-      line-height: 1.5;
-      padding-bottom: 3rem;
+    .main{
+        margin-left:70px;
+        width:calc(100% - 70px);
     }
 
-    /* HEADER & NAVEGACIÓN */
-    header {
-      background-color: rgba(21, 28, 44, 0.8);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .dashboard-grid{
+        grid-template-columns:1fr;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: -0.5px;
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+    .main{
+        padding:20px 13px;
     }
 
-    /* Logo Vectorial Original */
-    .brand svg {
-      width: 28px;
-      height: 28px;
-      fill: none;
-      stroke: var(--accent-blue);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .hero{
+        display:block;
     }
 
-    nav {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
+    .hero h1{
+        font-size:24px;
     }
 
-    nav a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
+    .stats{
+        grid-template-columns:1fr 1fr;
     }
 
-    nav a:hover {
-      color: var(--text-primary);
+    .topbar{
+        align-items:flex-start;
     }
 
-    .btn-cta {
-      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-      color: #fff;
-      padding: 0.5rem 1.25rem;
-      border-radius: 6px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 0.9rem;
+    .search{
+        width:130px;
     }
 
-    /* HERO SECTION */
-    .hero {
-      max-width: 1200px;
-      margin: 3rem auto 2rem;
-      padding: 0 1.5rem;
-      text-align: center;
+    .opportunity-grid{
+        grid-template-columns:1fr;
     }
-
-    .badge-demo {
-      display: inline-block;
-      background-color: rgba(251, 191, 36, 0.1);
-      color: var(--warning);
-      border: 1px solid var(--warning);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 1rem;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      background: linear-gradient(to right, #ffffff, var(--text-muted));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* CONTENEDOR PRINCIPAL / GRID */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      margin: 2.5rem 0 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .grid-trends {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* TARJETAS DE TENDENCIAS */
-    .card-trend {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: transform 0.2s, border-color 0.2s;
-      position: relative;
-    }
-
-    .card-trend:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent-blue);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .country-tag {
-      font-size: 0.85rem;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      color: var(--text-muted);
-    }
-
-    .growth-badge {
-      color: var(--success);
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    .card-trend h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .meta-list {
-      list-style: none;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin: 1rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .meta-list span {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    .btn-strategy {
-      width: 100%;
-      background-color: rgba(56, 189, 248, 0.1);
-      color: var(--accent-blue);
-      border: 1px solid var(--accent-blue);
-      padding: 0.6rem;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 0.5rem;
-    }
-
-    .btn-strategy:hover {
-      background-color: var(--accent-blue);
-      color: #000;
-    }
-
-    /* MODAL DE GENERACIÓN DE ESTRATEGIA (SIMULACIÓN IA) */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(4px);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .modal-content {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      max-width: 600px;
-      width: 100%;
-      padding: 2rem;
-      position: relative;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* PRECIOS / MODELO DE MONETIZACIÓN */
-    .grid-pricing {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .card-price {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 2rem 1.5rem;
-      text-align: center;
-    }
-
-    .card-price.popular {
-      border-color: var(--accent-purple);
-      position: relative;
-    }
-
-    .price {
-      font-size: 2rem;
-      font-weight: 800;
-      margin: 1rem 0;
-    }
-
-    .price span {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      font-weight: 400;
-    }
-
-    /* SECCIÓN LEGAL */
-    .legal-container {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 2rem;
-      margin-top: 4rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .legal-container h2 {
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-    }
-
-    .draft-badge {
-      background-color: rgba(249, 115, 22, 0.1);
-      color: var(--accent-fire);
-      border: 1px solid var(--accent-fire);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      display: inline-block;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 4rem;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-  </style>
+}
+</style>
 </head>
+
 <body>
 
-  <!-- NAVEGACIÓN PRINCIPAL -->
-  <header>
-    <div class="brand">
-      <svg viewBox="0 0 24 24">
-        <path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"/>
-        <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
-        <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
-      </svg>
+<div class="app">
 
-      <span>TrendRadar AI</span>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">R</div>
+        TREND<span>RADAR</span>
     </div>
-    <nav>
-      <a href="#radar">Radar</a>
-      <a href="#precios">Planes</a>
-      <a href="#legal">Legal</a>
-      <a href="#precios" class="btn-cta">Probar Gratis</a>
-    </nav>
-  </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <span class="badge-demo">DEMO DATA — PLATAFORMA DE PRUEBA</span>
-    <h1>Detecta Oportunidades Antes que tu Competencia</h1>
-    <p>Centro de inteligencia de marketing basado en IA. Anticipa tendencias de producto, contenido y mercado para marcas y empresas.</p>
-  </section>
+    <div class="nav-title">Intelligence</div>
 
-  <!-- RADAR DE TENDENCIAS (SAMPLE DATA) -->
-  <main class="container" id="radar">
-    <h2 class="section-title">🚨 Tendencias Detectadas Hoy (SAMPLE DATA)</h2>
-    
-    <div class="grid-trends">
-      
-      <!-- Tarjeta 1 -->
-      <div class="card-trend">
-        <div class="card-header">
-          <span class="country-tag">🇪🇸 España</span>
-          <span class="growth-badge">+218% ↑</span>
+    <div class="nav-item active">
+        <b>◉</b><span>Radar</span>
+    </div>
+
+    <div class="nav-item">
+        <b>↗</b><span>Emerging Trends</span>
+    </div>
+
+    <div class="nav-item">
+        <b>♢</b><span>Trend Library</span>
+    </div>
+
+    <div class="nav-title">Brand Intelligence</div>
+
+    <div class="nav-item">
+        <b>◎</b><span>My Brand</span>
+    </div>
+
+    <div class="nav-item">
+        <b>✦</b><span>Opportunities</span>
+    </div>
+
+    <div class="nav-item">
+        <b>⌁</b><span>AI Insights</span>
+    </div>
+
+    <div class="nav-title">Markets</div>
+
+    <div class="nav-item">
+        <b>◌</b><span>Global</span>
+    </div>
+
+    <div class="nav-item">
+        <b>ES</b><span>Spain</span>
+    </div>
+
+    <div class="sidebar-bottom">
+        <div class="api-status">
+            <div>
+                <span class="status-dot"></span>
+                <span style="font-size:11px">Radar Engine Online</span>
+            </div>
+            <div class="status-text" style="margin-top:7px">
+                Monitoring signals continuously
+            </div>
         </div>
-        <h3>Moda Sostenible / Botellas Térmicas Compactas</h3>
-        <ul class="meta-list">
-          <li>Categoría: <span>Lifestyle & Accesorios</span></li>
-          <li>Público Objetivo: <span>16–24 años (Gen Z)</span></li>
-          <li>Aceleración: <span>Alta (Acelerando)</span></li>
-          <li>Probabilidad Mainstream: <span>89%</span></li>
-        </ul>
-        <button class="btn-strategy" onclick="openStrategyModal('Botellas Térmicas Compactas', '🇪🇸 España')">⚡ Crear Estrategia con IA</button>
-      </div>
+    </div>
 
-      <!-- Tarjeta 2 -->
-      <div class="card-trend">
-        <div class="card-header">
-          <span class="country-tag">🇺🇸 EE. UU.</span>
-          <span class="growth-badge">+340% ↑</span>
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <div class="page-title">Trend Radar</div>
+            <div class="page-subtitle">
+                Detect what is about to explode before everyone else.
+            </div>
         </div>
-        <h3>Snacks Funcionales de Proteína Vegetal</h3>
-        <ul class="meta-list">
-          <li>Categoría: <span>Alimentación & Salúd</span></li>
-          <li>Público Objetivo: <span>22–35 años</span></li>
-          <li>Aceleración: <span>Muy Alta</span></li>
-          <li>Probabilidad Mainstream: <span>94%</span></li>
-        </ul>
-        <button class="btn-strategy" onclick="openStrategyModal('Snacks Proteína Vegetal', '🇺🇸 EE. UU.')">⚡ Crear Estrategia con IA</button>
-      </div>
 
-      <!-- Tarjeta 3 -->
-      <div class="card-trend">
-        <div class="card-header">
-          <span class="country-tag">🇬🇧 Reino Unido</span>
-          <span class="growth-badge">+180% ↑</span>
+        <div class="top-actions">
+            <input
+                id="searchInput"
+                class="search"
+                placeholder="Search trends..."
+                oninput="searchTrends()"
+            >
+            <button class="btn" onclick="refreshRadar()">↻ Refresh</button>
+            <button class="btn btn-primary" onclick="openAI()">
+                ✦ AI Analysis
+            </button>
         </div>
-        <h3>Audio Asmr / Auriculares Ergonómicos Nocturnos</h3>
-        <ul class="meta-list">
-          <li>Categoría: <span>Tecnología & Bienestar</span></li>
-          <li>Público Objetivo: <span>18–30 años</span></li>
-          <li>Aceleración: <span>Estable</span></li>
-          <li>Probabilidad Mainstream: <span>76%</span></li>
-        </ul>
-        <button class="btn-strategy" onclick="openStrategyModal('Auriculares Nocturnos', '🇬🇧 Reino Unido')">⚡ Crear Estrategia con IA</button>
-      </div>
-
     </div>
 
-    <!-- SECCIÓN PLANES Y PRECIOS -->
-    <h2 class="section-title" id="precios" style="margin-top: 4rem;">💰 Planes y Suscripciones (DEMO)</h2>
-    <div class="grid-pricing">
-      
-      <div class="card-price">
-        <h3>Starter</h3>
-        <div class="price">29 € <span>/ mes</span></div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Para pequeños creadores o proyectos individuales.</p>
-      </div>
 
-      <div class="card-price popular">
-        <span class="badge-demo" style="position: absolute; top:-12px; left:50%; transform: translateX(-50%); background: var(--accent-purple); color:#fff; border:none;">Recomendado</span>
-        <h3>Pro</h3>
-        <div class="price">99 € <span>/ mes</span></div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Para marcas en crecimiento y agencias de marketing.</p>
-      </div>
+    <!-- HERO -->
+    <section class="hero">
 
-      <div class="card-price">
-        <h3>Business</h3>
-        <div class="price">299 € <span>/ mes</span></div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Acceso completo a predicciones globales y exportación de datos.</p>
-      </div>
+        <div>
+            <div class="hero-label">Predictive Trend Intelligence</div>
 
-      <div class="card-price">
-        <h3>Enterprise</h3>
-        <div class="price">Personalizado</div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Informes a medida y conexión API dedicada.</p>
-      </div>
+            <h1>
+                Know what's trending
+                <span style="color:var(--green)">before it trends.</span>
+            </h1>
 
-    </div>
+            <p>
+                TrendRadar analyzes early signals across social platforms,
+                search behavior, sounds, hashtags and creator activity to
+                identify trends with breakout potential.
+            </p>
 
-    <!-- SECCIÓN COMPLIANCE Y MARCO LEGAL -->
-    <div class="legal-container" id="legal">
-      <span class="draft-badge">BORRADOR LEGAL — REQUIERE REVISIÓN PROFESIONAL</span>
-      <h2>Cumplimiento de Privacidad y Términos Legales</h2>
-      
-      <h3 style="color: var(--text-primary); margin-top: 1rem;">1. Aviso Legal (Plantilla)</h3>
-      <p>TrendRadar AI opera como un prototipo conceptual de inteligencia de mercado. Los contenidos expuestos tienen fines exclusivamente informativos y de demostración.</p>
-
-      <h3 style="color: var(--text-primary); margin-top: 1rem;">2. Política de Privacidad (Privacy by Design)</h3>
-      <p>Esta plataforma no recopila datos personales sin consentimiento explícito. No se utilizan cookies analíticas ni de terceros sin la aprobación del usuario.</p>
-
-      <h3 style="color: var(--text-primary); margin-top: 1rem;">3. Política de Cookies</h3>
-      <p>Solo se emplean cookies técnicas estrictamente necesarias para el funcionamiento y navegación por la web.</p>
-    </div>
-
-  </main>
-
-  <!-- MODAL GENERADOR DE ESTRATEGIA (SIMULACIÓN DE IA) -->
-  <div class="modal" id="strategyModal">
-    <div class="modal-content">
-      <button class="close-modal" onclick="closeStrategyModal()">&times;</button>
-      <span class="badge-demo">IA GENERATIVE STRATEGY (SAMPLE)</span>
-      <h3 id="modalTitle" style="margin-bottom: 1rem;">Estrategia Generada</h3>
-      
-      <div id="modalBody" style="font-size: 0.9rem; color: var(--text-muted);">
-        <!-- Generado por JavaScript -->
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2026 TrendRadar AI. Todos los derechos reservados. Desarrollado con código 100% original.</p>
-  </footer>
-
-  <script>
-    /* ==========================================================================
-       LÓGICA JAVASCRIPT VAINILLA (Simulación de Generación de Estrategia)
-       ========================================================================== */
-    function openStrategyModal(trendName, country) {
-      const modal = document.getElementById('strategyModal');
-      const title = document.getElementById('modalTitle');
-      const body = document.getElementById('modalBody');
-
-      title.textContent = `Estrategia IA para: ${trendName} (${country})`;
-      
-      body.innerHTML = `
-        <p><strong>Público recomendado:</strong> Jóvenes interesados en tendencias urbanas y sostenibilidad.</p>
-        <br>
-        <p><strong>Propuesta de Contenido (Redes Sociales):</strong></p>
-        <ul style="margin-left: 1.2rem; margin-top: 0.5rem;">
-          <li>Vídeo corto mostrando un "Unboxing / Uso Real" en situaciones cotidianas.</li>
-          <li>Colaboración con 3 micro-influencers locales en el sector Lifestyle.</li>
-        </ul>
-        <br>
-        <p><strong>Ventana de Oportunidad Sugerida:</strong> Próximos 7 a 14 días.</p>
-        <br>
-        <div style="background: rgba(255,255,255,0.05); padding: 0.8rem; border-radius: 6px; border-left: 3px solid var(--accent-blue);">
-          <em>Nota: Este plan ha sido simulado mediante DEMO DATA para la demostración técnica de la plataforma.</em>
+            <div class="live">
+                <span class="live-dot"></span>
+                RADAR LIVE · Last scan 42 seconds ago
+            </div>
         </div>
-      `;
 
-      modal.style.display = 'flex';
+        <div style="text-align:right">
+            <div style="font-size:10px;color:#777e8c">
+                GLOBAL SIGNALS
+            </div>
+
+            <div style="font-size:42px;font-weight:850;margin-top:5px">
+                18,472
+            </div>
+
+            <div style="font-size:10px;color:var(--green)">
+                +12.8% vs yesterday
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>Emerging trends</span>
+                <span>↗</span>
+            </div>
+            <div class="stat-value" id="emergingCount">127</div>
+            <div class="stat-change">+18.4% today</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>Breakout probability</span>
+                <span>◈</span>
+            </div>
+            <div class="stat-value">82%</div>
+            <div class="stat-change">AI confidence</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>Signals analyzed</span>
+                <span>⌁</span>
+            </div>
+            <div class="stat-value">2.4M</div>
+            <div class="stat-change">Last 24 hours</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <span>Opportunities</span>
+                <span>✦</span>
+            </div>
+            <div class="stat-value">36</div>
+            <div class="stat-change">High potential</div>
+        </div>
+
+    </section>
+
+
+    <div class="dashboard-grid">
+
+        <!-- RADAR -->
+        <section class="panel">
+
+            <div class="panel-header">
+                <div>
+                    <div class="panel-title">Live Trend Radar</div>
+                    <div class="panel-subtitle">
+                        Early signals detected across monitored markets
+                    </div>
+                </div>
+
+                <div style="font-size:10px;color:var(--green)">
+                    ● LIVE
+                </div>
+            </div>
+
+            <div class="radar-wrap">
+
+                <div class="radar">
+
+                    <div class="sweep"></div>
+                    <div class="radar-center"></div>
+
+                    <div class="radar-point r1"
+                         data-name="Street Beauty"></div>
+
+                    <div class="radar-point r2"
+                         data-name="Mini Vlogs"></div>
+
+                    <div class="radar-point r3"
+                         data-name="Photo Dumps"></div>
+
+                    <div class="radar-point r4"
+                         data-name="AI Styling"></div>
+
+                    <div class="radar-point r5"
+                         data-name="Micro Reviews"></div>
+
+                    <div class="radar-point r6"
+                         data-name="POV Format"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI INSIGHT -->
+        <section class="panel">
+
+            <div class="panel-header">
+                <div>
+                    <div class="panel-title">AI Prediction Engine</div>
+                    <div class="panel-subtitle">
+                        Most important signal detected
+                    </div>
+                </div>
+
+                <span style="color:#c5aaff">✦ AI</span>
+            </div>
+
+            <div class="ai-content">
+
+                <div class="ai-box">
+
+                    <div class="ai-title">
+                        Breakout candidate
+                    </div>
+
+                    <div class="ai-main">
+                        “Raw Micro-Review” format
+                    </div>
+
+                    <div class="ai-text">
+                        Unpolished product reviews filmed in a
+                        fast, authentic style are showing accelerated
+                        adoption among smaller creators.
+                    </div>
+
+                </div>
+
+                <div class="prediction">
+                    <div class="prediction-left">
+                        Breakout probability
+                    </div>
+                    <div class="prediction-value">
+                        91%
+                    </div>
+                </div>
+
+                <div class="prediction">
+                    <div class="prediction-left">
+                        Estimated acceleration
+                    </div>
+                    <div class="prediction-value">
+                        +238%
+                    </div>
+                </div>
+
+                <div class="prediction">
+                    <div class="prediction-left">
+                        Estimated window
+                    </div>
+                    <div class="prediction-value">
+                        2–5 days
+                    </div>
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    style="width:100%;margin-top:15px"
+                    onclick="openTrend('Raw Micro-Review',91)"
+                >
+                    View full intelligence →
+                </button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- TREND TABLE -->
+    <section class="panel" style="margin-top:20px">
+
+        <div class="panel-header">
+
+            <div>
+                <div class="panel-title">
+                    Emerging Trends
+                </div>
+
+                <div class="panel-subtitle">
+                    Ranked by predictive Trend Score
+                </div>
+            </div>
+
+            <div style="font-size:10px;color:#777">
+                UPDATED LIVE
+            </div>
+
+        </div>
+
+        <div class="filters">
+
+            <button class="filter active"
+                    onclick="filterTrend('all',this)">
+                All
+            </button>
+
+            <button class="filter"
+                    onclick="filterTrend('exploding',this)">
+                🔥 Exploding
+            </button>
+
+            <button class="filter"
+                    onclick="filterTrend('rising',this)">
+                ↗ Rising
+            </button>
+
+            <button class="filter"
+                    onclick="filterTrend('emerging',this)">
+                ◉ Emerging
+            </button>
+
+            <button class="filter"
+                    onclick="filterTrend('saturated',this)">
+                Saturated
+            </button>
+
+        </div>
+
+        <div class="trends" id="trendList"></div>
+
+    </section>
+
+
+    <!-- OPPORTUNITY -->
+    <section class="opportunity">
+
+        <div class="opportunity-header">
+
+            <div>
+                <h3>✦ Opportunity for brands</h3>
+
+                <p>
+                    Turn emerging signals into actions before the market catches up.
+                </p>
+            </div>
+
+            <button class="btn btn-primary"
+                    onclick="generateOpportunity()">
+                Generate opportunity
+            </button>
+
+        </div>
+
+        <div class="opportunity-grid">
+
+            <div class="opp-card">
+                <div class="opp-label">
+                    Recommended sector
+                </div>
+                <div class="opp-value">
+                    Fashion · Beauty
+                </div>
+            </div>
+
+            <div class="opp-card">
+                <div class="opp-label">
+                    Content strategy
+                </div>
+                <div class="opp-value">
+                    Authentic micro-review
+                </div>
+            </div>
+
+            <div class="opp-card">
+                <div class="opp-label">
+                    Best action
+                </div>
+                <div class="opp-value">
+                    Enter early
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</div>
+
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <div>
+                <div style="font-size:10px;color:var(--green)">
+                    TREND INTELLIGENCE
+                </div>
+
+                <div id="modalTitle"
+                     style="font-size:20px;font-weight:750;margin-top:5px">
+                    Trend
+                </div>
+            </div>
+
+            <button class="close" onclick="closeModal()">×</button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div style="font-size:10px;color:#777">
+                TREND SCORE
+            </div>
+
+            <div class="big-score" id="modalScore">
+                91
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar"
+                     id="modalProgress"
+                     style="width:91%">
+                </div>
+            </div>
+
+            <div class="analysis" id="modalAnalysis"></div>
+
+            <div class="prediction">
+                <div class="prediction-left">
+                    AI breakout prediction
+                </div>
+
+                <div class="prediction-value">
+                    HIGH
+                </div>
+            </div>
+
+            <div class="prediction">
+                <div class="prediction-left">
+                    Best opportunity window
+                </div>
+
+                <div class="prediction-value">
+                    Next 2–5 days
+                </div>
+            </div>
+
+            <div class="modal-actions">
+
+                <button class="btn btn-primary"
+                        onclick="generateIdea()">
+                    ✦ Generate content idea
+                </button>
+
+                <button class="btn"
+                        onclick="closeModal()">
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==========================================================
+   TREND RADAR ENGINE
+   ----------------------------------------------------------
+   DEMO DATA
+
+   IMPORTANT:
+   Replace this dataset later with your API/backend.
+   NEVER put private API keys directly in this HTML.
+========================================================== */
+
+const trends = [
+
+{
+    name:"Raw Micro-Review",
+    score:91,
+    growth:"+238%",
+    category:"exploding",
+    sector:"Beauty",
+    market:"Global",
+    tags:["UGC","Reviews","Beauty"]
+},
+
+{
+    name:"POV Mini Vlogs",
+    score:87,
+    growth:"+184%",
+    category:"rising",
+    sector:"Lifestyle",
+    market:"Global",
+    tags:["POV","Vlog","Lifestyle"]
+},
+
+{
+    name:"AI Styling Challenge",
+    score:84,
+    growth:"+161%",
+    category:"rising",
+    sector:"Fashion",
+    market:"Europe",
+    tags:["AI","Fashion","Challenge"]
+},
+
+{
+    name:"Street Beauty Check",
+    score:79,
+    growth:"+143%",
+    category:"emerging",
+    sector:"Beauty",
+    market:"Spain",
+    tags:["Street","Beauty","Interview"]
+},
+
+{
+    name:"Photo Dump Story",
+    score:76,
+    growth:"+127%",
+    category:"emerging",
+    sector:"Lifestyle",
+    market:"Global",
+    tags:["Photo","Story","Lifestyle"]
+},
+
+{
+    name:"Micro Creator Reviews",
+    score:73,
+    growth:"+119%",
+    category:"emerging",
+    sector:"Ecommerce",
+    market:"Europe",
+    tags:["Creator","Reviews","UGC"]
+},
+
+{
+    name:"Silent Product Demo",
+    score:68,
+    growth:"+94%",
+    category:"emerging",
+    sector:"Ecommerce",
+    market:"Global",
+    tags:["Product","Demo","ASMR"]
+},
+
+{
+    name:"Old Internet Edit",
+    score:61,
+    growth:"+71%",
+    category:"saturated",
+    sector:"Entertainment",
+    market:"Global",
+    tags:["Edit","Nostalgia"]
+}
+
+];
+
+
+/* RENDER */
+
+function renderTrends(data=trends){
+
+    const list=document.getElementById("trendList");
+
+    list.innerHTML="";
+
+    data.forEach((trend,index)=>{
+
+        const div=document.createElement("div");
+
+        div.className="trend";
+
+        div.innerHTML=`
+
+            <div class="rank">
+                #${index+1}
+            </div>
+
+            <div>
+
+                <div class="trend-name">
+                    ${trend.name}
+                </div>
+
+                <div class="trend-meta">
+
+                    <span class="tag green">
+                        ${trend.category}
+                    </span>
+
+                    <span class="tag">
+                        ${trend.sector}
+                    </span>
+
+                    <span class="tag">
+                        ${trend.market}
+                    </span>
+
+                    ${trend.tags.slice(0,2).map(tag =>
+                        `<span class="tag">${tag}</span>`
+                    ).join("")}
+
+                </div>
+
+            </div>
+
+            <div class="score">
+
+                <div class="score-number">
+                    ${trend.score}
+                </div>
+
+                <div class="score-label">
+                    TREND SCORE
+                </div>
+
+                <div class="growth">
+                    ${trend.growth}
+                </div>
+
+            </div>
+        `;
+
+        div.onclick=()=>openTrend(trend.name,trend.score);
+
+        div.style.cursor="pointer";
+
+        list.appendChild(div);
+
+    });
+
+}
+
+
+/* SEARCH */
+
+function searchTrends(){
+
+    const value=
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const filtered=trends.filter(t=>
+        t.name.toLowerCase().includes(value) ||
+        t.sector.toLowerCase().includes(value) ||
+        t.market.toLowerCase().includes(value) ||
+        t.tags.join(" ").toLowerCase().includes(value)
+    );
+
+    renderTrends(filtered);
+}
+
+
+/* FILTER */
+
+function filterTrend(category,button){
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(b=>b.classList.remove("active"));
+
+    button.classList.add("active");
+
+    if(category==="all"){
+        renderTrends();
+    }else{
+        renderTrends(
+            trends.filter(t=>t.category===category)
+        );
     }
+}
 
-    function closeStrategyModal() {
-      document.getElementById('strategyModal').style.display = 'none';
-    }
 
-    // Cerrar modal al hacer clic fuera del contenido
-    window.onclick = function(event) {
-      const modal = document.getElementById('strategyModal');
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-  </script>
+/* TREND MODAL */
 
-  <!--
-  ==========================================================================
-  THIRD-PARTY LICENSES
-  ==========================================================================
-  Recursos de terceros utilizados en este proyecto:
+function openTrend(name,score){
 
-  NINGUNO.
+    document.getElementById("modalTitle")
+        .innerText=name;
 
-  Todo el código HTML, la hoja de estilos CSS, la lógica de interacción en 
-  JavaScript y los elementos gráficos vectoriales SVG inline incluidos en 
-  este archivo han sido desarrollados íntegramente desde cero específicamente 
-  para este proyecto como obra original.
+    document.getElementById("modalScore")
+        .innerText=score;
 
-  - Fuentes tipográficas: Tipografías nativas del sistema (System Fonts Stack / CSS Cero Cargas Externas).
-  - Frameworks / Librerías: Ninguno (Desarrollo nativo en HTML5, CSS3, ES6+).
-  - Iconos: Gráficos vectoriales SVG creados mediante código propio.
+    document.getElementById("modalProgress")
+        .style.width=score+"%";
 
-  Exención de responsabilidad de IP:
-  El código entregado es de autoría propia, reutilizable y comercializable.
-  No se incluye ninguna certificación ni garantía explícita sobre marcas registradas
-  que puedan coincidir comercialmente con términos generados en los ejemplos demostrativos.
-  ==========================================================================
-  -->
+    document.getElementById("modalAnalysis")
+        .innerHTML=`
+
+        <strong style="color:white">
+        Why the radar detected this:
+        </strong>
+
+        <br><br>
+
+        Early creator adoption is accelerating while
+        mainstream adoption remains relatively low.
+
+        This creates a potential gap between discovery
+        and saturation.
+
+        <br><br>
+
+        <strong style="color:white">
+        Recommended strategy:
+        </strong>
+
+        Enter while the format is still in the
+        emerging/rising phase and adapt it to your
+        own brand rather than copying existing videos.
+
+        `;
+
+    document.getElementById("modal")
+        .classList.add("show");
+}
+
+
+function closeModal(){
+
+    document.getElementById("modal")
+        .classList.remove("show");
+
+}
+
+
+/* AI ANALYSIS */
+
+function openAI(){
+
+    openTrend(
+        "AI Trend Intelligence",
+        94
+    );
+
+    document.getElementById("modalAnalysis")
+        .innerHTML=`
+
+        <strong style="color:white">
+        AI prediction engine
+        </strong>
+
+        <br><br>
+
+        The system identifies abnormal acceleration
+        across multiple signals rather than relying
+        only on current popularity.
+
+        <br><br>
+
+        <strong style="color:white">
+        Signals currently weighted:
+        </strong>
+
+        <br><br>
+
+        • Creator adoption<br>
+        • Engagement acceleration<br>
+        • Search growth<br>
+        • Hashtag velocity<br>
+        • Audio adoption<br>
+        • Geographic expansion<br>
+        • Content format repetition<br>
+        • Audience interaction
+
+        <br><br>
+
+        <strong style="color:white">
+        Current confidence: 94%
+        </strong>
+        `;
+
+}
+
+
+/* CONTENT IDEA */
+
+function generateIdea(){
+
+    alert(
+`AI CONTENT OPPORTUNITY
+
+Create a short-form video around the detected trend.
+
+Hook:
+"Nobody is talking about this yet..."
+
+Structure:
+1. Immediate hook
+2. Show the product/problem
+3. Authentic reaction
+4. Quick payoff
+5. CTA
+
+Goal:
+Enter the trend before saturation.`
+    );
+
+}
+
+
+/* OPPORTUNITY */
+
+function generateOpportunity(){
+
+    const random=
+        trends[Math.floor(Math.random()*trends.length)];
+
+    alert(
+`OPPORTUNITY DETECTED
+
+Trend:
+${random.name}
+
+Trend Score:
+${random.score}/100
+
+Growth:
+${random.growth}
+
+Recommended sector:
+${random.sector}
+
+Strategy:
+Enter early with an original interpretation
+of the trend.
+
+AI recommendation:
+Test 3 variations before increasing production.`
+    );
+
+}
+
+
+/* REFRESH RADAR */
+
+function refreshRadar(){
+
+    const count=
+        document.getElementById("emergingCount");
+
+    const current=parseInt(count.innerText);
+
+    count.innerText=
+        current + Math.floor(Math.random()*7)-2;
+
+    document.querySelector(".live")
+        .innerHTML=
+        `<span class="live-dot"></span>
+         RADAR UPDATED · Just now`;
+
+    renderTrends();
+
+}
+
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+
+document.getElementById("modal")
+    .addEventListener("click",function(e){
+
+        if(e.target===this){
+            closeModal();
+        }
+
+    });
+
+
+/* INITIAL LOAD */
+
+renderTrends();
+
+
+/* ==========================================================
+   FUTURE API CONNECTION
+   ----------------------------------------------------------
+
+   IMPORTANT:
+   Your real architecture should eventually be:
+
+   FRONTEND
+       ↓
+   YOUR BACKEND
+       ↓
+   DATA SOURCES / APIs
+       ↓
+   TREND DETECTION ENGINE
+       ↓
+   AI MODEL
+       ↓
+   TREND SCORE
+       ↓
+   FRONTEND
+
+   DO NOT put private API keys here.
+
+   Example backend endpoint:
+
+   fetch("/api/trends")
+       .then(response => response.json())
+       .then(data => {
+           renderTrends(data);
+       });
+
+========================================================== */
+
+</script>
+
 </body>
 </html>
+```
